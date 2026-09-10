@@ -1,5 +1,7 @@
 # WaybillKit
 
+[English](README.md) | [한국어](README.ko.md)
+
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue)](LICENSE)
 [![Node.js: 22.13+](https://img.shields.io/badge/Node.js-22.13%2B-339933)](#getting-started)
 [![TypeScript](https://img.shields.io/badge/TypeScript-typed-3178C6)](#api)
@@ -104,6 +106,10 @@ logging complete results.
 
 ## Roadmap
 
+WaybillKit starts with carriers that do not offer a publicly available official
+tracking API for developers. We plan to gradually expand coverage, starting in
+Korea and extending to the United States and Japan as integrations can be validated.
+
 - Expand support for additional Korean parcel and freight carriers.
 - Add carriers in the United States and Japan through the same unified API.
 - Grow coverage with community-contributed, redacted response fixtures and real-world validation.
@@ -128,6 +134,20 @@ Scheduled checks and repair automation are not yet enabled. Dummy checks verify
 only the observed no-history response path, not successful shipment tracking or
 every possible website change. Community reports and real-response fixtures remain
 essential to validating each integration.
+
+## Responsible use
+
+Carrier websites and tracking endpoints are shared services. Do not use WaybillKit
+to send indiscriminate requests or otherwise burden or disrupt carrier services.
+
+- Follow each carrier's applicable terms and access restrictions. A publicly accessible endpoint does not imply permission for unrestricted automated use.
+- Track only shipments you are authorized to access. Do not enumerate tracking numbers or collect unrelated shipment data in bulk.
+- Limit request frequency and concurrency per carrier. Reuse cached results where appropriate, avoid duplicate requests and stop polling delivered shipments when updates are no longer needed.
+- Back off on rate limits or repeated failures, and stop requests when access is denied. Do not bypass CAPTCHAs, authentication or other access controls.
+
+Apply these principles to scheduled checks as well as application traffic.
+WaybillKit does not currently provide automatic rate limiting, caching or retries;
+applications must implement appropriate request controls themselves.
 
 ## Contributing
 
