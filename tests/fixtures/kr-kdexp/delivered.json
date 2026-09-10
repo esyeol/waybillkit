@@ -1,0 +1,42 @@
+{
+  "result": "suc",
+  "data": {
+    "scanList": [
+      {
+        "scanDt": "2026-01-02 04:00:00.0",
+        "scanType": "0007",
+        "scanTypeNm": "인수확인",
+        "strtPointNm": "SYNTHETIC_DESTINATION",
+        "strtPointTelno": ""
+      },
+      {
+        "scanDt": "2026-01-02 03:00:00",
+        "scanType": "0008",
+        "scanTypeNm": "배송중",
+        "strtPointNm": "SYNTHETIC_DESTINATION",
+        "strtPointTelno": ""
+      },
+      {
+        "scanDt": "2026-01-02 02:00:00",
+        "scanType": "0006",
+        "scanTypeNm": "도착",
+        "strtPointNm": "SYNTHETIC_TERMINAL",
+        "strtPointTelno": ""
+      },
+      {
+        "scanDt": "2026-01-02 01:00:00",
+        "scanType": "0003",
+        "scanTypeNm": "터미널",
+        "strtPointNm": "SYNTHETIC_TERMINAL",
+        "strtPointTelno": ""
+      },
+      {
+        "scanDt": "2026-01-02 00:00:00",
+        "scanType": "0002",
+        "scanTypeNm": "발송",
+        "strtPointNm": "SYNTHETIC_ORIGIN",
+        "strtPointTelno": ""
+      }
+    ]
+  }
+}

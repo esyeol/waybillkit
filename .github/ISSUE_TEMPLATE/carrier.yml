@@ -1,0 +1,23 @@
+name: Carrier request
+description: Suggest a carrier and explain the integration need
+body:
+  - type: markdown
+    attributes:
+      value: Do not post real waybills or personal information. Indicate whether you can help with authorized testing without attaching real responses.
+  - type: input
+    id: carrier
+    attributes:
+      label: Carrier name, country, and public homepage URL
+    validations:
+      required: true
+  - type: textarea
+    id: need
+    attributes:
+      label: Use case and limitations of existing integration options
+    validations:
+      required: true
+  - type: textarea
+    id: testing
+    attributes:
+      label: Can you help validate normal, delivered, and not-found results?
+      description: Describe availability only. Do not attach real tracking data.

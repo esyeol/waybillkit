@@ -1,0 +1,42 @@
+name: Carrier validation or structure change
+description: Share validation evidence or report a changed tracking response
+body:
+  - type: markdown
+    attributes:
+      value: Do not attach actual waybills, raw responses, HAR files, personal details, cookies or credentials. A report does not automatically trigger an AI repair.
+  - type: dropdown
+    id: carrier
+    attributes:
+      label: Carrier
+      options: [kr.daesin, kr.kdexp, kr.chunilps, kr.kunyoung, kr.ilyanglogis]
+    validations:
+      required: true
+  - type: dropdown
+    id: evidence
+    attributes:
+      label: What did you verify?
+      options:
+        - Official site with dummy input only
+        - Official site with an authorized shipment
+        - SDK with an authorized shipment
+        - Offline parser with a redacted fixture
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: SDK version, Node version, OS and observation date
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+      description: Include the error class and whether the official site works. Do not paste raw error logs or tracking results.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal synthetic reproduction or proposed test
+      description: Remove identifiers, names, addresses, phone numbers, scripts and tokens before sharing. State whether this is observed or hypothetical structure.

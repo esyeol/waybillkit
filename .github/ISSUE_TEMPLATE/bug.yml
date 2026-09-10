@@ -1,0 +1,24 @@
+name: Bug report
+description: Report a reproducible SDK or tooling problem
+body:
+  - type: markdown
+    attributes:
+      value: Do not post real tracking numbers, names, addresses, phone numbers, raw responses, cookies, or credentials.
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction with synthetic data
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Package version, Node.js version, OS, and carrier ID (if relevant)
+    validations:
+      required: true

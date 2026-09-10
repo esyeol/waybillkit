@@ -1,0 +1,12 @@
+{
+  "res": true,
+  "msg": "",
+  "rows": [
+    {
+      "resultCode": "1",
+      "resultDesc": "Tracking 데이터 없음",
+      "lastTrackingDesc": "미 접수된 물품 이오니 송장번호 재 확인 후 다시 이용해 주시기 바랍니다",
+      "tracking": null
+    }
+  ]
+}

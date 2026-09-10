@@ -1,0 +1,58 @@
+{
+  "name": "@esyeol/waybillkit",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A TypeScript SDK for unified tracking across Korean parcel and freight carriers.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "esyeol",
+    "url": "https://github.com/esyeol"
+  },
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm check:workflows && pnpm check:package",
+    "check:package": "node scripts/check-package.mjs",
+    "check:workflows": "node scripts/check-workflows.mjs",
+    "check:carriers": "node scripts/probes/check-carriers.mjs",
+    "prepack": "pnpm build",
+    "prepublishOnly": "node scripts/assert-publishable.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.12",
+    "@types/node": "^24.13.3",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0",
+    "yaml": "^2.8.0"
+  },
+  "dependencies": {
+    "cheerio": "1.2.0",
+    "iconv-lite": "0.7.3"
+  }
+}

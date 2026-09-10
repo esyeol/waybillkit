@@ -1,0 +1,120 @@
+name: Carrier repair proposal
+on:
+  workflow_call:
+    inputs:
+      has_report:
+        type: boolean
+        default: false
+    secrets:
+      OPENAI_API_KEY:
+        required: true
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: carrier-repair
+  cancel-in-progress: false
+jobs:
+  propose:
+    if: vars.CARRIER_REPAIR_ENABLED == 'true' && github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        if: inputs.has_report
+        with:
+          name: carrier-report
+          path: .local
+      - run: mkdir -p .local
+      - uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt-file: .github/codex/carrier-repair.md
+          sandbox: workspace-write
+          safety-strategy: drop-sudo
+          output-file: .local/repair-summary.md
+      # No GitHub write credentials in the agent job. Only a patch leaves it.
+      - name: Export candidate patch
+        run: |
+          git add --intent-to-add -- src/carriers tests
+          git diff --binary -- src/carriers tests > .local/carrier-repair.patch
+      - uses: actions/upload-artifact@v4
+        with:
+          name: carrier-repair-patch
+          path: .local/carrier-repair.patch
+          include-hidden-files: true
+          retention-days: 7
+          if-no-files-found: error
+  verify:
+    needs: propose
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.patch.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: carrier-repair-patch
+          path: .local
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install --frozen-lockfile
+      - name: Apply candidate in a fresh checkout
+        id: patch
+        run: |
+          if test -s .local/carrier-repair.patch; then
+            node scripts/check-repair-patch.mjs
+            git apply .local/carrier-repair.patch
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.patch.outputs.changed == 'true'
+        run: pnpm check
+  publish-proposal:
+    needs: verify
+    if: needs.verify.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: carrier-repair-patch
+          path: .local
+      - run: git apply .local/carrier-repair.patch
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/carrier-repair
+          draft: true
+          title: 'fix: propose carrier parser repair'
+          commit-message: 'fix: propose carrier parser repair'
+          add-paths: |
+            src/carriers/
+            tests/
+          body: |
+            Automated candidate based on committed evidence. Review the diff and regression test before merging.
+
+            pnpm check passed in a separate checkout on Node 24. Live shipment success was not verified.
+            This workflow does not merge or publish. The default GitHub token does not trigger PR CI;
+            run CI manually for this branch (Node 22 and 24) before merging.

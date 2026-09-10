@@ -1,0 +1,88 @@
+name: Release
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing GitHub Release tag to retry publishing (for example v0.1.0)
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: waybillkit-release
+  cancel-in-progress: false
+jobs:
+  release:
+    if: github.event_name == 'push' && vars.RELEASE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      created: ${{ steps.release.outputs.release_created }}
+      tag: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - name: Require repository-scoped release token
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: test -n "$RELEASE_TOKEN"
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.RELEASE_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+  publish:
+    needs: release
+    if: >-
+      always() && !cancelled() &&
+      vars.RELEASE_ENABLED == 'true' &&
+      vars.NPM_PUBLISH_ENABLED == 'true' &&
+      (needs.release.outputs.created == 'true' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Resolve release tag
+        id: target
+        env:
+          RELEASE_TAG: ${{ needs.release.outputs.tag || inputs.tag }}
+        run: |
+          node --input-type=module -e '
+            import { appendFileSync } from "node:fs";
+            const tag = process.env.RELEASE_TAG;
+            if (!/^v[0-9]+\.[0-9]+\.[0-9]+$/.test(tag ?? "")) throw new Error("Expected stable release tag vX.Y.Z");
+            appendFileSync(process.env.GITHUB_OUTPUT, "tag=" + tag + "\n");
+          '
+      - name: Verify GitHub Release exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.target.outputs.tag }}
+        run: gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY"
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.target.outputs.tag }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+      - name: Verify release metadata
+        env:
+          RELEASE_TAG: ${{ steps.target.outputs.tag }}
+        run: |
+          node scripts/assert-publishable.mjs
+          node --input-type=module -e '
+            import assert from "node:assert/strict";
+            import { readFileSync } from "node:fs";
+            const pkg = JSON.parse(readFileSync("package.json", "utf8"));
+            assert.equal(process.env.RELEASE_TAG, "v" + pkg.version);
+            assert.equal(pkg.repository.url, "git+https://github.com/" + process.env.GITHUB_REPOSITORY + ".git");
+          '
+      - name: Publish through npm trusted publishing
+        run: npm publish

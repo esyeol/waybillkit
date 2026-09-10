@@ -1,0 +1,39 @@
+{
+  "res": true,
+  "msg": "",
+  "rows": [
+    {
+      "eventNm": "배달완료",
+      "tracking": [
+        {
+          "actDate": "20260102",
+          "actTime": "0000",
+          "chkPointDesc2": "발송사무소 인수",
+          "stationName": "SYNTHETIC_ORIGIN",
+          "stationTel": ""
+        },
+        {
+          "actDate": "20260102",
+          "actTime": "0100",
+          "chkPointDesc2": "배송경유지 출고",
+          "stationName": "SYNTHETIC_TERMINAL",
+          "stationTel": ""
+        },
+        {
+          "actDate": "20260102",
+          "actTime": "0300",
+          "chkPointDesc2": "직원 배송중",
+          "stationName": "SYNTHETIC_DESTINATION",
+          "stationTel": ""
+        },
+        {
+          "actDate": "20260102",
+          "actTime": "0400",
+          "chkPointDesc2": "배달완료",
+          "stationName": "SYNTHETIC_DESTINATION",
+          "stationTel": ""
+        }
+      ]
+    }
+  ]
+}

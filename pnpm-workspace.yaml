@@ -1,0 +1,2 @@
+# Single package: this file holds pnpm settings, not workspace packages.
+saveExact: true
