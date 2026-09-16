@@ -29,13 +29,19 @@ tracking statuses and events.
 | 대신택배 · Daesin | `kr.daesin` | EUC-KR HTML | Delivered and not-found responses |
 | 경동택배 · Kyungdong | `kr.kdexp` | UTF-8 JSON | Dummy response checked; successful-response fixture is synthetic |
 | 천일택배 · Chunil | `kr.chunilps` | UTF-8 HTML | Dummy response checked; successful-response fixture is synthetic |
-| 건영택배 · Kunyoung | `kr.kunyoung` | EUC-KR HTML | Synthetic fixtures; HTTPS certificate error at last check |
+| 건영택배 · Kunyoung | `kr.kunyoung` | UTF-8 JSON | Current endpoint: dummy no-history response verified; successful shipments remain unverified |
 | 일양로지스 · Ilyang | `kr.ilyanglogis` | UTF-8 JSON | Dummy response checked; successful-response fixture is synthetic |
 
 Last protocol check: **2026-09-10**. Dummy-response checks do not verify successful
 shipment tracking. Carrier websites may change independently of this package.
 
 ## Getting started
+
+Kunyoung uses the public tracking UI at `https://mj.kunyoung.com/`. Its live raw
+response is now UTF-8 JSON rather than legacy EUC-KR HTML. `parseTracking` still
+accepts saved legacy HTML strings and EUC-KR bytes; parsed metadata identifies the
+actual format. Successful JSON events are covered by synthetic tests, not a live
+shipment capture. Unknown status labels remain `UNKNOWN`.
 
 Requires **Node.js 22.13+**. WaybillKit is an ESM package; browser runtimes are not
 supported.

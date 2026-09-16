@@ -33,12 +33,12 @@ const fixtures = {
   },
   "kr.kunyoung": {
     directory: "kr-kunyoung",
-    delivered: "delivered.html",
-    notFound: "not-found.html",
-    source: "HTML",
-    encoding: "euc-kr",
+    delivered: "delivered.json",
+    notFound: "not-found.json",
+    source: "JSON",
+    encoding: "utf-8",
     trackingNumber: "0000000000",
-    contentType: "text/html",
+    contentType: "text/html;charset=UTF-8",
   },
   "kr.ilyanglogis": {
     directory: "kr-ilyanglogis",
@@ -67,10 +67,7 @@ const notFound = (carrier: AdditionalCarrier) =>
 const response = (carrier: AdditionalCarrier) => {
   const fixture = fixtures[carrier];
   const text = delivered(carrier);
-  const bytes =
-    fixture.encoding === "euc-kr"
-      ? iconv.encode(text, "euc-kr")
-      : new TextEncoder().encode(text);
+  const bytes = new TextEncoder().encode(text);
   return new Response(new Uint8Array(bytes), {
     headers: { "Content-Type": fixture.contentType },
   });
@@ -113,7 +110,7 @@ describe("additional carrier parsing", () => {
   );
 
   it("decodes Kunyoung EUC-KR bytes", () => {
-    const html = delivered("kr.kunyoung");
+    const html = read("kr.kunyoung", "delivered.html");
     expect(
       parseTracking({
         carrier: "kr.kunyoung",
@@ -185,7 +182,7 @@ describe("additional carrier transport", () => {
     );
   });
 
-  it("uses only the secure Kunyoung URL", async () => {
+  it("uses the current secure Kunyoung multipart JSON endpoint", async () => {
     const fetcher = stub(async () => response("kr.kunyoung"));
     await track({
       carrier: "kr.kunyoung",
@@ -193,8 +190,16 @@ describe("additional carrier transport", () => {
       fetch: fetcher,
     });
     expect(String(fetcher.mock.calls[0]?.[0])).toBe(
-      "https://www.kunyoung.com/goods/goods_02__.php?mulno=0000000000",
+      "https://mj.kunyoung.com/webinvoicetracehistory/selectListInvoiceTraceHistory.do",
     );
+    const init = fetcher.mock.calls[0]?.[1];
+    expect(init?.method).toBe("POST");
+    expect(init?.body).toBeInstanceOf(FormData);
+    const form = init?.body;
+    if (!(form instanceof FormData)) throw new Error("Expected FormData");
+    expect([...form.entries()]).toEqual([["invoiceNumber", "0000000000"]]);
+    expect(new Headers(init?.headers).has("content-type")).toBe(false);
+    expect(init?.redirect).toBe("error");
   });
 
   it("uses Ilyang's current form-backed JSON endpoint", async () => {

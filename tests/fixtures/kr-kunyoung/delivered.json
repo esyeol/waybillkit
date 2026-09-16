@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "msgCode": "0",
+  "rows": [
+    {
+      "writeDate": "2026-01-02 04:00:00",
+      "goodsTypeSP": "Y",
+      "goodsContent": "배송완료",
+      "userName": "SYNTHETIC_NAME",
+      "phoneNumber": "SYNTHETIC_PHONE",
+      "fileUrl": "SYNTHETIC_PRIVATE_URL"
+    },
+    {
+      "writeDate": "2026-01-01 12:00:00",
+      "goodsTypeSP": "N",
+      "deliveryContent": "SYNTHETIC_LOCATION ",
+      "goodsContent": "발송"
+    }
+  ]
+}

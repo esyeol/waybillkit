@@ -28,6 +28,64 @@ function description(value: TrackingStatus): string {
 }
 
 export function parseKunyoung(
+  payload: string,
+): Pick<ParsedTrackingResult, "events" | "status"> {
+  // Retain offline compatibility with previously captured legacy HTML.
+  if (payload.trimStart().startsWith("<")) return parseLegacyHtml(payload);
+  let data: unknown;
+  try {
+    data = JSON.parse(payload);
+  } catch {
+    throw new ParseError("Invalid tracking JSON.", carrierId);
+  }
+  if (
+    !isRecord(data) ||
+    data.success !== true ||
+    data.msgCode !== "0" ||
+    !Array.isArray(data.rows)
+  )
+    throw new ParseError(
+      "Tracking response envelope is unrecognized.",
+      carrierId,
+    );
+  if (data.rows.length === 0)
+    throw new TrackingNotFoundError(
+      "No tracking history was found.",
+      carrierId,
+    );
+  const events: TrackingEvent[] = data.rows.map((row: unknown) => {
+    if (
+      !isRecord(row) ||
+      typeof row.writeDate !== "string" ||
+      typeof row.goodsContent !== "string" ||
+      !row.goodsContent.trim() ||
+      typeof row.goodsTypeSP !== "string" ||
+      !row.goodsTypeSP.trim() ||
+      (row.goodsTypeSP === "N" && typeof row.deliveryContent !== "string")
+    )
+      throw new ParseError("Tracking row shape is unrecognized.", carrierId);
+    // Internal codes are not documented status codes. Classify displayed text,
+    // but never expose free text, names, phone numbers or proof-of-delivery URLs.
+    const text =
+      row.goodsTypeSP === "N"
+        ? `${row.deliveryContent}${row.goodsContent}`
+        : row.goodsContent;
+    const normalized = status(text);
+    return {
+      status: normalized,
+      description: description(normalized),
+      time: parseKoreanDateTime(row.writeDate, carrierId),
+    };
+  });
+  sortEvents(events);
+  return { events, status: events.at(-1)?.status ?? "UNKNOWN" };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function parseLegacyHtml(
   html: string,
 ): Pick<ParsedTrackingResult, "events" | "status"> {
   const $ = load(html);
