@@ -1,7 +1,6 @@
 // Copyright 2026 esyeol
 // SPDX-License-Identifier: Apache-2.0
 
-import iconv from "iconv-lite";
 import { InvalidTrackingNumberError, ParseError } from "../../core/errors.js";
 import { parseTracking } from "../../core/parse-tracking.js";
 import { requestCarrier } from "../../core/request.js";
@@ -20,16 +19,30 @@ export async function trackKunyoung(
       "Expected a 10-digit Kunyoung waybill.",
       carrierId,
     );
-  const params = new URLSearchParams({ mulno: options.trackingNumber });
+  const form = new FormData();
+  form.append("invoiceNumber", options.trackingNumber);
   const { bytes, contentType } = await requestCarrier(
     options,
     carrierId,
-    `https://www.kunyoung.com/goods/goods_02__.php?${params}`,
-    { headers: { "User-Agent": "WaybillKit/0.0 (manual tracking SDK)" } },
+    "https://mj.kunyoung.com/webinvoicetracehistory/selectListInvoiceTraceHistory.do",
+    {
+      method: "POST",
+      headers: { "User-Agent": "WaybillKit/0.0 (manual tracking SDK)" },
+      body: form,
+    },
   );
-  if (!/text\/html\b/i.test(contentType))
-    throw new ParseError("Expected an HTML tracking response.", carrierId);
-  const body = iconv.decode(Buffer.from(bytes), "euc-kr");
+  // The current server labels JSON as text/html;charset=UTF-8 (observed
+  // 2026-09-16). Accept that header, but still reject HTML/malformed JSON below.
+  if (
+    !/^\s*(?:(?:application|text)\/json|text\/html)\s*(?:;|$)/i.test(
+      contentType,
+    )
+  )
+    throw new ParseError("Expected a JSON tracking response.", carrierId);
+  const body = new TextDecoder().decode(bytes);
+  // Legacy HTML is supported only for offline captures, never live JSON replies.
+  if (body.trimStart().startsWith("<"))
+    throw new ParseError("Expected a JSON tracking response.", carrierId);
   const parsed = parseTracking({ carrier: carrierId, payload: body });
   return {
     result: {
@@ -37,6 +50,6 @@ export async function trackKunyoung(
       trackingNumber: options.trackingNumber,
       meta: { ...parsed.meta, fetchedAt: new Date().toISOString() },
     },
-    raw: { body, contentType, encoding: "euc-kr" },
+    raw: { body, contentType, encoding: "utf-8" },
   };
 }

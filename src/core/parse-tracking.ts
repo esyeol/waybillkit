@@ -45,8 +45,8 @@ const settings: Record<
   },
   "kr.kunyoung": {
     name: "건영택배",
-    encoding: "euc-kr",
-    source: "HTML",
+    encoding: "utf-8",
+    source: "JSON",
     parse: parseKunyoung,
   },
   "kr.ilyanglogis": {
@@ -63,7 +63,14 @@ export function parseTracking(
 ): ParsedTrackingResult {
   const carrier = settings[options.carrier];
   if (!carrier) throw new RangeError("Unsupported carrier.");
-  const encoding = options.encoding ?? carrier.encoding;
+  // Legacy Kunyoung HTML captures defaulted to EUC-KR. Detect markup before
+  // decoding, while current JSON bytes use UTF-8. Explicit encoding still wins.
+  const legacyKunyoungBytes =
+    options.carrier === "kr.kunyoung" &&
+    options.payload instanceof Uint8Array &&
+    new TextDecoder().decode(options.payload).trimStart().startsWith("<");
+  const encoding =
+    options.encoding ?? (legacyKunyoungBytes ? "euc-kr" : carrier.encoding);
   if (encoding !== "euc-kr" && encoding !== "utf-8") {
     throw new RangeError("Unsupported payload encoding.");
   }
@@ -79,6 +86,12 @@ export function parseTracking(
   return {
     carrier: { id: options.carrier, name: carrier.name },
     ...carrier.parse(payload),
-    meta: { source: carrier.source, locale: "ko-KR" },
+    meta: {
+      source:
+        options.carrier === "kr.kunyoung" && payload.trimStart().startsWith("<")
+          ? "HTML"
+          : carrier.source,
+      locale: "ko-KR",
+    },
   };
 }

@@ -29,13 +29,19 @@ Node.js 애플리케이션에서 각 운송사의 배송 정보를 직접 조회
 | 대신택배 | `kr.daesin` | EUC-KR HTML | 배송 완료 및 미조회 응답 검증 |
 | 경동택배 | `kr.kdexp` | UTF-8 JSON | 더미 응답 확인, 성공 응답 fixture는 합성 데이터 |
 | 천일택배 | `kr.chunilps` | UTF-8 HTML | 더미 응답 확인, 성공 응답 fixture는 합성 데이터 |
-| 건영택배 | `kr.kunyoung` | EUC-KR HTML | 합성 fixture, 마지막 확인 시 HTTPS 인증서 오류 |
+| 건영택배 | `kr.kunyoung` | UTF-8 JSON | 현재 경로의 더미 미조회 응답 확인, 실제 성공 배송은 미검증 |
 | 일양로지스 | `kr.ilyanglogis` | UTF-8 JSON | 더미 응답 확인, 성공 응답 fixture는 합성 데이터 |
 
 마지막 프로토콜 확인일은 **2026-09-10**입니다. 더미 응답 점검은 실제 배송 성공을
 검증하지 않습니다. 운송사 웹사이트는 이 패키지와 무관하게 변경될 수 있습니다.
 
 ## 시작하기
+
+건영은 `https://mj.kunyoung.com/`의 공개 조회 화면에서 사용하는 경로로 조회합니다.
+실시간 원문 응답은 기존 EUC-KR HTML에서 UTF-8 JSON으로 바뀌었습니다.
+`parseTracking`은 저장된 기존 HTML 문자열과 EUC-KR 바이트도 계속 지원하며,
+메타데이터에는 실제 형식이 표시됩니다. 성공 JSON 이벤트는 합성 테스트로만 검증했고
+실제 성공 배송 응답은 아직 확보하지 못했습니다. 모르는 상태 문구는 `UNKNOWN`으로 유지합니다.
 
 **Node.js 22.13 이상**이 필요합니다. WaybillKit은 ESM 패키지이며 브라우저 런타임은
 지원하지 않습니다.
