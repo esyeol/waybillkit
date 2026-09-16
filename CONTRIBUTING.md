@@ -10,6 +10,15 @@ checks and package installation checks with npm and pnpm. Package installation
 checks require registry access; unit tests do not query carrier websites.
 Use `pnpm test` for offline tests and `pnpm format` for formatting.
 
+Package checks require runtime entry points, type declarations, package metadata
+and distribution notices. Root README and CHANGELOG Markdown files, including
+language variants such as `README.ko.md`, are optional and need no per-file check
+updates. Compiled JavaScript and declaration files under `dist/` are allowed;
+internal documents, source files, tests and environment files are not. The
+`package.json` `files` field selects distribution content; the package check
+independently guards against unexpected files. New runtime asset formats require
+an explicit packaging policy update.
+
 ## Workflow
 
 Create a short-lived branch, open a PR, and squash merge to `main` after CI passes.
