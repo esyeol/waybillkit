@@ -1,4 +1,3 @@
-import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import {
   mkdirSync,
@@ -11,6 +10,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import iconv from "iconv-lite";
+import { validatePackageContents } from "./package-contents.mjs";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const scratch = mkdtempSync(join(tmpdir(), "waybillkit-package-"));
@@ -39,21 +39,7 @@ try {
     ]),
   );
   const paths = packed.files.map((file) => file.path).sort();
-  const required = [
-    "LICENSE",
-    "NOTICE",
-    "README.md",
-    "dist/index.d.ts",
-    "dist/index.js",
-    "package.json",
-  ];
-  for (const path of required)
-    assert.ok(paths.includes(path), `Missing package file: ${path}`);
-  for (const path of paths)
-    assert.ok(
-      required.includes(path) || /^dist\/[\w/-]+\.(js|d\.ts)$/.test(path),
-      `Unexpected package file: ${path}`,
-    );
+  validatePackageContents(paths);
   const html = readFileSync(
     join(root, "tests/fixtures/kr-daesin/delivered.html"),
     "utf8",
