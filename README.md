@@ -2,6 +2,8 @@
 
 [English](README.md) | [한국어](README.ko.md)
 
+[Documentation](https://esyeol.github.io/waybillkit/) · [한국어 문서](https://esyeol.github.io/waybillkit/ko/)
+
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue)](LICENSE)
 [![Node.js: 22.13+](https://img.shields.io/badge/Node.js-22.13%2B-339933)](#getting-started)
 [![TypeScript](https://img.shields.io/badge/TypeScript-typed-3178C6)](#api)
@@ -32,8 +34,9 @@ tracking statuses and events.
 | 건영택배 · Kunyoung | `kr.kunyoung` | UTF-8 JSON | Current endpoint: dummy no-history response verified; successful shipments remain unverified |
 | 일양로지스 · Ilyang | `kr.ilyanglogis` | UTF-8 JSON | Dummy response checked; successful-response fixture is synthetic |
 
-Last protocol check: **2026-09-10**. Dummy-response checks do not verify successful
-shipment tracking. Carrier websites may change independently of this package.
+Dummy-response checks do not verify successful shipment tracking. Carrier websites
+may change independently of this package. See the [carrier evidence and limitations](https://esyeol.github.io/waybillkit/#carriers),
+including Daesin connection failures observed on GitHub runners before TLS/HTTP.
 
 ## Getting started
 
@@ -127,19 +130,18 @@ Suggestions and contributions are welcome through issues and pull requests.
 
 ## Automated validation
 
-GitHub Actions workflows are prepared to check code quality, types, offline tests
-and package installation on Node.js 22 and 24 for pushes and pull requests.
+GitHub Actions checks code quality, types, offline tests, public documentation and
+package installation on Node.js 22 and 24 for pushes and pull requests.
 
-Once enabled, scheduled carrier checks will run twice daily against selected
-carriers using fixed dummy inputs. Optional issue automation will track failures
-and recovery. Repeated response-parsing failures can trigger a repair proposal;
-changes backed by sufficient committed evidence must pass checks before a draft
-PR is opened for maintainer review.
+As of **2026-09-20**, fixed-dummy checks for all five carriers are scheduled twice
+daily and issue automation is enabled. Scheduled runs may be delayed. A green
+workflow means report generation succeeded, not that every carrier is healthy.
+Dummy checks do not validate successful shipment tracking.
 
-Scheduled checks and repair automation are not yet enabled. Dummy checks verify
-only the observed no-history response path, not successful shipment tracking or
-every possible website change. Community reports and real-response fixtures remain
-essential to validating each integration.
+Optional repair automation is currently disabled. It can propose evidence-backed
+draft PRs for repeated unrecognized contracts, not transport failures; changes are
+not automatically merged. See [automation and network limitations](https://esyeol.github.io/waybillkit/#limitations)
+and [recent carrier reports](https://github.com/esyeol/waybillkit/actions/workflows/carrier-check.yml).
 
 ## Responsible use
 
