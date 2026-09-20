@@ -6,9 +6,14 @@ For an intentional dependency update, use pnpm and include the lockfile change.
 Do not add npm or Bun lockfiles.
 
 `pnpm check` runs lint, type checking, offline tests, build, workflow structure
-checks and package installation checks with npm and pnpm. Package installation
-checks require registry access; unit tests do not query carrier websites.
+checks, bilingual documentation validation/build and package installation checks
+with npm and pnpm. Package installation checks require registry access; unit tests
+do not query carrier websites.
 Use `pnpm test` for offline tests and `pnpm format` for formatting.
+
+Public documentation lives in `website/`; see its README for local previews.
+Update English and Korean content together. Label historical carrier evidence
+separately from current availability. Internal `docs/` remains local and ignored.
 
 Package checks require runtime entry points, type declarations, package metadata
 and distribution notices. Root README and CHANGELOG Markdown files, including

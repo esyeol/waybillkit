@@ -2,6 +2,8 @@
 
 [English](README.md) | [한국어](README.ko.md)
 
+[한국어 문서](https://esyeol.github.io/waybillkit/ko/) · [English documentation](https://esyeol.github.io/waybillkit/)
+
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue)](LICENSE)
 [![Node.js: 22.13+](https://img.shields.io/badge/Node.js-22.13%2B-339933)](#시작하기)
 [![TypeScript](https://img.shields.io/badge/TypeScript-typed-3178C6)](#api)
@@ -32,8 +34,9 @@ Node.js 애플리케이션에서 각 운송사의 배송 정보를 직접 조회
 | 건영택배 | `kr.kunyoung` | UTF-8 JSON | 현재 경로의 더미 미조회 응답 확인, 실제 성공 배송은 미검증 |
 | 일양로지스 | `kr.ilyanglogis` | UTF-8 JSON | 더미 응답 확인, 성공 응답 fixture는 합성 데이터 |
 
-마지막 프로토콜 확인일은 **2026-09-10**입니다. 더미 응답 점검은 실제 배송 성공을
-검증하지 않습니다. 운송사 웹사이트는 이 패키지와 무관하게 변경될 수 있습니다.
+더미 응답 점검은 실제 배송 성공을 검증하지 않습니다. 운송사 웹사이트는 이 패키지와
+무관하게 변경될 수 있습니다. GitHub 실행 환경에서 관찰한 대신의 TLS·HTTP 이전
+연결 실패를 포함해 [운송사별 근거와 제약](https://esyeol.github.io/waybillkit/ko/#carriers)을 확인하세요.
 
 ## 시작하기
 
@@ -129,16 +132,17 @@ Pull Request를 통한 운송사 제안 및 기여를 환영합니다.
 ## 자동 검증
 
 push와 Pull Request가 발생하면 GitHub Actions가 Node.js 22·24에서 코드 품질,
-타입, 오프라인 테스트 및 패키지 설치를 검사하도록 준비되어 있습니다.
+타입, 오프라인 테스트, 공개 문서 및 패키지 설치를 검사합니다.
 
-정기 운송사 점검을 활성화하면 선택한 운송사에 고정 더미값을 사용하여 하루 두 번
-확인합니다. 선택적 이슈 자동화는 장애와 복구 상태를 기록합니다. 응답 파싱 실패가
-반복되면 수정 제안을 생성할 수 있으며, 커밋된 근거가 충분한 변경만 검사를 통과한 뒤
-유지관리자 검토용 Draft PR로 생성됩니다.
+**2026-09-20 기준**, 운송사 5곳의 고정 더미 점검이 하루 두 번 예약되어 있으며
+이슈 자동화도 활성화되어 있습니다. 예약 실행은 지연될 수 있습니다. 초록색 성공
+표시는 보고서 생성 완료이지 모든 운송사의 정상을 뜻하지 않습니다. 더미 점검은
+실제 배송 성공을 검증하지 않습니다.
 
-정기 점검과 수정 자동화는 아직 활성화되지 않았습니다. 더미 점검은 관찰된 미조회
-응답만 확인하며, 실제 배송 성공이나 웹사이트의 모든 변경을 검증하지 않습니다.
-각 연동을 검증하려면 사용자 제보와 실제 응답을 비식별화한 fixture가 계속 필요합니다.
+선택적인 수정 자동화는 현재 비활성화되어 있습니다. 연결 실패가 아닌 반복적인
+응답 구조 불일치에 대해 근거가 있는 Draft PR을 제안할 수 있으며 자동 병합하지
+않습니다. [자동 점검과 네트워크 제약](https://esyeol.github.io/waybillkit/ko/#limitations) 및
+[최근 운송사 보고서](https://github.com/esyeol/waybillkit/actions/workflows/carrier-check.yml)를 참고하세요.
 
 ## 책임 있는 사용
 
