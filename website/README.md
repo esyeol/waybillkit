@@ -5,7 +5,13 @@ maintainer notes under the ignored root `docs/` directory are never copied here.
 
 - `content.mjs`: paired language content; keep section IDs and evidence aligned.
 - `build.mjs`: dependency-free static renderer; copies only explicit public assets.
-- `style.css` and `icon.svg`: local assets; no external fonts, analytics or scripts.
+- `style.css` and `icon.svg`: local assets; no external fonts or analytics.
+- `site.js`: legacy fragment links and same-section language switching only.
+
+Each topic has an English and Korean page. The overview lives at `/` and `/ko/`;
+other topics use `/<topic>/` and `/ko/<topic>/`. Navigation and the on-page contents
+are generated from the same content. All documentation works without JavaScript;
+JavaScript additionally routes old root fragment URLs to their new pages.
 
 Run `pnpm build:site` to generate `.local/site/`. To preview at the domain root,
 run `SITE_BASE_PATH=/ pnpm build:site` and serve `.local/site/` with any local

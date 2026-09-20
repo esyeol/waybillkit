@@ -35,7 +35,7 @@ tracking statuses and events.
 | 일양로지스 · Ilyang | `kr.ilyanglogis` | UTF-8 JSON | Dummy response checked; successful-response fixture is synthetic |
 
 Dummy-response checks do not verify successful shipment tracking. Carrier websites
-may change independently of this package. See the [carrier evidence and limitations](https://esyeol.github.io/waybillkit/#carriers),
+may change independently of this package. See the [carrier evidence and limitations](https://esyeol.github.io/waybillkit/carriers/),
 including Daesin connection failures observed on GitHub runners before TLS/HTTP.
 
 ## Getting started
@@ -140,7 +140,7 @@ Dummy checks do not validate successful shipment tracking.
 
 Optional repair automation is currently disabled. It can propose evidence-backed
 draft PRs for repeated unrecognized contracts, not transport failures; changes are
-not automatically merged. See [automation and network limitations](https://esyeol.github.io/waybillkit/#limitations)
+not automatically merged. See [automation and network limitations](https://esyeol.github.io/waybillkit/limitations/)
 and [recent carrier reports](https://github.com/esyeol/waybillkit/actions/workflows/carrier-check.yml).
 
 ## Responsible use
