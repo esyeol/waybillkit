@@ -1,0 +1,25 @@
+name: Daesin network diagnostic
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: daesin-network-diagnostic
+  cancel-in-progress: false
+jobs:
+  diagnose:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Bounded dummy-only network diagnosis
+        run: node scripts/probes/daesin-diagnostics.mjs

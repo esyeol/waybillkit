@@ -35,6 +35,17 @@ explicit release notes. Release Please owns version and changelog updates.
 
 ## Carrier contributions
 
+For persistent Daesin runner-only timeouts, maintainers can manually run
+`Daesin network diagnostic` on the default branch. It makes at most three sequential
+fixed-dummy POSTs: the SDK (10 seconds), instrumented IPv4 Node HTTPS (12 seconds),
+and IPv4 curl (12 seconds). Access denial/rate limiting stops subsequent probes.
+It never retries, follows redirects, disables TLS validation, or records response
+bodies/cookies. Safe DNS addresses, HTTP status, timings and error codes appear in
+the run summary. There is no schedule or issue/repair mutation. Run sparingly.
+Node stage names indicate the next incomplete phase, not proof of a specific
+firewall policy; curl and SDK use different clients/limits. A green diagnostic job
+means the report completed, not that tracking works. Unit tests make no requests.
+
 New adapters need evidence of
 successful queries and an explicitly recognized not-found response.
 A public homepage or HTTP 200 is not proof that tracking works.
