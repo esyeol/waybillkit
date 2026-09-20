@@ -67,31 +67,24 @@ function carrierTable(ko) {
 
 export const locales = {
   en: {
-    language: "English",
     other: "한국어",
     skip: "Skip to content",
     navigation: "Documentation",
-    github: "View on GitHub",
     edit: "Edit this documentation",
-    eyebrow: "THE WAYBILLKIT DOCUMENTATION",
-    title: "Different carriers.\nOne tracking interface.",
     description:
-      "A small TypeScript SDK for Korean parcel and freight tracking. Direct carrier requests, consistent events, and honest verification boundaries.",
-    start: "Start building",
-    support: "Explore carriers",
-    notice: "Experimental · Node.js 22.13+ · ESM · Not yet on npm",
+      "TypeScript SDK documentation for Korean parcel and freight tracking: setup, API reference, carriers and limitations.",
     footer:
       "Independent, unofficial integrations. Not affiliated with any carrier.",
     sections: [
       {
         id: "overview",
         title: "Overview",
-        body: `<p>WaybillKit brings five Korean parcel and freight carriers into one Node.js interface. Query a carrier directly, normalize its response, or parse a saved response completely offline.</p><div class="cards"><article><span class="card-number">01 / CONNECT</span><h3>A single interface</h3><p>Consistent statuses and chronological events across HTML and JSON responses.</p></article><article><span class="card-number">02 / UNDERSTAND</span><h3>Explicit boundaries</h3><p>Timeouts, no-history responses and unknown response structures are different outcomes.</p></article><article><span class="card-number">03 / CONTRIBUTE</span><h3>Evidence first</h3><p>Small, redacted fixtures and reviewable changes. No claims of universal availability.</p></article></div><p>We start with carriers without a publicly available official developer tracking API, expand Korean coverage, then plan to explore the United States and Japan. US and Japanese adapters are not available yet.</p>`,
+        body: `<p>WaybillKit is a TypeScript SDK for tracking shipments across Korean parcel and freight carriers. It sends requests directly to carrier websites and returns a common result format.</p><div class="callout"><strong>Experimental</strong><p>Not yet published to npm. Requires Node.js 22.13+ and ESM. These are unofficial integrations; carrier websites can change independently of this package.</p></div><h3 id="features">Features</h3><ul><li>Five Korean carriers through the same <code>track</code> interface.</li><li>Normalized statuses and chronological tracking events.</li><li>Offline parsing of saved HTML and JSON responses.</li><li>Request timeouts, cancellation and an injectable <code>fetch</code>.</li><li>Separate errors for no history, unexpected responses and connection failures.</li></ul><h3 id="documentation">Using this documentation</h3><p>Follow <a href="#getting-started">Getting started</a> to build from source and run your first query. The <a href="#api">API reference</a> covers options, result types and errors.</p><p>Before deploying, review <a href="#carriers">carrier verification evidence</a>, <a href="#limitations">network limitations</a> and <a href="#responsible-use">responsible use</a>. Dummy checks do not establish that successful shipment tracking works.</p><h3 id="roadmap">Roadmap</h3><p>We start with carriers without a publicly available official developer tracking API. Additional Korean carriers are planned, followed by the United States and Japan as integrations can be validated. US and Japanese adapters are not available yet.</p><p>Reports, redacted response fixtures and new adapters are welcome. See <a href="#contributing">Contributing</a>.</p>`,
       },
       {
         id: "getting-started",
         title: "Getting started",
-        body: `<div class="callout"><strong>Build from source for now.</strong><p>The planned package is <code>@esyeol/waybillkit</code>, but it is not published to npm. These instructions use a local checkout.</p></div><p>Use Node.js 24 for development and the pnpm version pinned in <code>package.json</code>. The SDK supports Node.js 22.13+ and ESM; browser runtimes are not supported.</p>${setup}<p>Save the following as <code>example.mjs</code> in the repository root. Set <code>WAYBILLKIT_DAESIN_NUMBER</code> in your local environment to a 12- or 13-digit waybill you are authorized to query, then run <code>node example.mjs</code>. Do not commit the number.</p>${example}<p>Test connectivity from your own deployment environment before relying on an integration. See <a href="#limitations">Daesin’s runner limitation</a>. This documentation site never queries carriers.</p>`,
+        body: `<div class="callout"><strong>Build from source for now.</strong><p>The planned package is <code>@esyeol/waybillkit</code>, but it is not published to npm. These instructions use a local checkout.</p></div><h3 id="requirements">Requirements</h3><p>Use Node.js 24 for development and the pnpm version pinned in <code>package.json</code>. The SDK supports Node.js 22.13+ and ESM; browser runtimes are not supported.</p><h3 id="installation">Build from source</h3>${setup}<h3 id="first-query">Your first query</h3><p>Save the following as <code>example.mjs</code> in the repository root. Set <code>WAYBILLKIT_DAESIN_NUMBER</code> in your local environment to a 12- or 13-digit waybill you are authorized to query, then run <code>node example.mjs</code>. Do not commit the number.</p>${example}<p>Test connectivity from your own deployment environment before relying on an integration. See <a href="#limitations">Daesin’s runner limitation</a>. This documentation site never queries carriers.</p>`,
       },
       {
         id: "api",
@@ -121,30 +114,23 @@ export const locales = {
     ],
   },
   ko: {
-    language: "한국어",
     other: "English",
     skip: "본문으로 이동",
     navigation: "문서 안내",
-    github: "GitHub에서 보기",
     edit: "문서 수정 제안",
-    eyebrow: "WAYBILLKIT 개발자 문서",
-    title: "서로 다른 택배사.\n하나의 조회 인터페이스.",
     description:
-      "국내 택배·화물 조회를 위한 작은 TypeScript SDK. 운송사에 직접 요청하고, 일관된 이벤트와 명확한 검증 범위를 제공합니다.",
-    start: "시작하기",
-    support: "지원 운송사 보기",
-    notice: "실험 단계 · Node.js 22.13+ · ESM · npm 미배포",
+      "국내 택배·화물 조회를 위한 TypeScript SDK 문서: 설치, API 레퍼런스, 지원 운송사와 제약 사항.",
     footer: "독립적인 비공식 연동입니다. 어떤 운송사와도 제휴하지 않습니다.",
     sections: [
       {
         id: "overview",
         title: "프로젝트 소개",
-        body: `<p>WaybillKit은 국내 택배·화물 운송사 5곳을 하나의 Node.js 인터페이스로 연결합니다. 운송사에 직접 조회하여 응답을 정규화하거나, 저장된 응답을 네트워크 없이 파싱할 수 있습니다.</p><div class="cards"><article><span class="card-number">01 / CONNECT</span><h3>하나의 인터페이스</h3><p>서로 다른 HTML·JSON 응답을 공통 배송 상태와 시간순 이벤트로 제공합니다.</p></article><article><span class="card-number">02 / UNDERSTAND</span><h3>명확한 한계</h3><p>타임아웃, 배송 이력 없음, 알 수 없는 응답 구조를 구분합니다.</p></article><article><span class="card-number">03 / CONTRIBUTE</span><h3>근거 중심의 개발</h3><p>작은 비식별 fixture와 검토 가능한 변경을 쌓습니다. 모든 환경에서 동작한다고 약속하지 않습니다.</p></article></div><p>개발자에게 공개된 공식 배송 조회 API가 없는 운송사부터 시작합니다. 국내 지원을 늘린 뒤 미국·일본으로 확대할 계획이며, 미국·일본 어댑터는 아직 제공하지 않습니다.</p>`,
+        body: `<p>WaybillKit은 국내 택배·화물 운송사의 배송 조회를 위한 TypeScript SDK입니다. 운송사 웹사이트에 직접 요청하고 공통 결과 형식으로 반환합니다.</p><div class="callout"><strong>실험 단계</strong><p>아직 npm에 배포하지 않았습니다. Node.js 22.13 이상과 ESM이 필요합니다. 비공식 연동이므로 운송사 웹사이트는 이 패키지와 무관하게 바뀔 수 있습니다.</p></div><h3 id="features">주요 기능</h3><ul><li>동일한 <code>track</code> 인터페이스로 국내 운송사 5곳 조회</li><li>공통 배송 상태와 시간순 이벤트 제공</li><li>저장된 HTML·JSON 응답의 오프라인 파싱</li><li>요청 타임아웃, 취소 및 사용자 정의 <code>fetch</code></li><li>배송 이력 없음, 예상하지 못한 응답, 연결 실패를 구분하는 오류</li></ul><h3 id="documentation">문서 안내</h3><p><a href="#getting-started">시작하기</a>에서 소스 빌드와 첫 조회 방법을 확인하세요. 옵션, 반환 타입과 오류는 <a href="#api">API 레퍼런스</a>에서 설명합니다.</p><p>배포 전에는 <a href="#carriers">운송사별 검증 범위</a>, <a href="#limitations">네트워크 제약</a>, <a href="#responsible-use">책임 있는 사용</a>을 확인하세요. 더미 응답 확인이 실제 배송 성공을 검증하는 것은 아닙니다.</p><h3 id="roadmap">로드맵</h3><p>개발자에게 공개된 공식 배송 조회 API가 없는 운송사부터 시작합니다. 국내 지원을 늘리고 검증이 가능해지는 대로 미국·일본으로 확대할 계획입니다. 미국·일본 어댑터는 아직 제공하지 않습니다.</p><p>문제 제보, 비식별 응답 fixture, 신규 어댑터 기여를 환영합니다. <a href="#contributing">기여하기</a>를 참고하세요.</p>`,
       },
       {
         id: "getting-started",
         title: "시작하기",
-        body: `<div class="callout"><strong>현재는 소스에서 빌드합니다.</strong><p>예정된 패키지명은 <code>@esyeol/waybillkit</code>이며 아직 npm에 배포하지 않았습니다. 아래 예제는 로컬 체크아웃 기준입니다.</p></div><p>개발에는 Node.js 24와 <code>package.json</code>에 지정된 pnpm 버전을 사용하세요. SDK는 Node.js 22.13 이상과 ESM을 지원하며 브라우저 런타임은 지원하지 않습니다.</p>${setup}<p>저장소 루트에 아래 내용을 <code>example.mjs</code>로 저장하세요. 조회 권한이 있는 대신택배 12자리 또는 13자리 운송장 번호를 로컬 환경 변수 <code>WAYBILLKIT_DAESIN_NUMBER</code>에 설정한 뒤 <code>node example.mjs</code>로 실행합니다. 운송장 번호를 커밋하지 마세요.</p>${example}<p>실제 배포 환경에서 연결 가능 여부를 먼저 확인하세요. <a href="#limitations">대신택배의 실행 환경 제약</a>도 참고하세요. 이 문서 사이트는 운송사에 조회 요청을 보내지 않습니다.</p>`,
+        body: `<div class="callout"><strong>현재는 소스에서 빌드합니다.</strong><p>예정된 패키지명은 <code>@esyeol/waybillkit</code>이며 아직 npm에 배포하지 않았습니다. 아래 예제는 로컬 체크아웃 기준입니다.</p></div><h3 id="requirements">실행 환경</h3><p>개발에는 Node.js 24와 <code>package.json</code>에 지정된 pnpm 버전을 사용하세요. SDK는 Node.js 22.13 이상과 ESM을 지원하며 브라우저 런타임은 지원하지 않습니다.</p><h3 id="installation">소스 빌드</h3>${setup}<h3 id="first-query">첫 조회</h3><p>저장소 루트에 아래 내용을 <code>example.mjs</code>로 저장하세요. 조회 권한이 있는 대신택배 12자리 또는 13자리 운송장 번호를 로컬 환경 변수 <code>WAYBILLKIT_DAESIN_NUMBER</code>에 설정한 뒤 <code>node example.mjs</code>로 실행합니다. 운송장 번호를 커밋하지 마세요.</p>${example}<p>실제 배포 환경에서 연결 가능 여부를 먼저 확인하세요. <a href="#limitations">대신택배의 실행 환경 제약</a>도 참고하세요. 이 문서 사이트는 운송사에 조회 요청을 보내지 않습니다.</p>`,
       },
       {
         id: "api",

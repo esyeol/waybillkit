@@ -36,7 +36,7 @@ Node.js 애플리케이션에서 각 운송사의 배송 정보를 직접 조회
 
 더미 응답 점검은 실제 배송 성공을 검증하지 않습니다. 운송사 웹사이트는 이 패키지와
 무관하게 변경될 수 있습니다. GitHub 실행 환경에서 관찰한 대신의 TLS·HTTP 이전
-연결 실패를 포함해 [운송사별 근거와 제약](https://esyeol.github.io/waybillkit/ko/#carriers)을 확인하세요.
+연결 실패를 포함해 [운송사별 근거와 제약](https://esyeol.github.io/waybillkit/ko/carriers/)을 확인하세요.
 
 ## 시작하기
 
@@ -141,7 +141,7 @@ push와 Pull Request가 발생하면 GitHub Actions가 Node.js 22·24에서 코�
 
 선택적인 수정 자동화는 현재 비활성화되어 있습니다. 연결 실패가 아닌 반복적인
 응답 구조 불일치에 대해 근거가 있는 Draft PR을 제안할 수 있으며 자동 병합하지
-않습니다. [자동 점검과 네트워크 제약](https://esyeol.github.io/waybillkit/ko/#limitations) 및
+않습니다. [자동 점검과 네트워크 제약](https://esyeol.github.io/waybillkit/ko/limitations/) 및
 [최근 운송사 보고서](https://github.com/esyeol/waybillkit/actions/workflows/carrier-check.yml)를 참고하세요.
 
 ## 책임 있는 사용
