@@ -14,7 +14,7 @@ A TypeScript SDK for unified tracking across Korean parcel and freight carriers.
 Query carriers directly from your Node.js application and receive consistent
 tracking statuses and events.
 
-> Experimental — not yet published to npm. Carrier support and API details may change.
+> Experimental alpha — carrier support and API details may change. Review the verification limits before production use.
 
 ## Features
 
@@ -49,28 +49,31 @@ shipment capture. Unknown status labels remain `UNKNOWN`.
 Requires **Node.js 22.13+**. WaybillKit is an ESM package; browser runtimes are not
 supported.
 
-Until the first npm release, build from a local checkout using Node.js 24 and
-the pnpm version specified in `package.json`:
+Install the experimental channel explicitly:
 
 ```sh
-pnpm install --frozen-lockfile
-pnpm build
+npm install @esyeol/waybillkit@next
 ```
 
-Run the following from a JavaScript module in the project root:
+For reproducible evaluation, pin `@esyeol/waybillkit@0.1.0-alpha.1` with
+`--save-exact`. Run the following from an `.mjs` file in your application:
 
 ```js
-import { track } from './dist/index.js';
+import { track } from '@esyeol/waybillkit';
+
+const trackingNumber = process.env.WAYBILLKIT_DAESIN_NUMBER;
+if (!trackingNumber) throw new Error('Set an authorized waybill number');
 
 const result = await track({
   carrier: 'kr.daesin',
-  trackingNumber: process.env.WAYBILLKIT_DAESIN_NUMBER,
+  trackingNumber,
   timeoutMs: 10_000,
 });
 ```
 
 Set `WAYBILLKIT_DAESIN_NUMBER` to a 12- or 13-digit Daesin waybill you are authorized
-to query. The planned npm package name is `@esyeol/waybillkit`.
+to query. Test connectivity from your deployment environment; Daesin has known
+GitHub-runner connection failures. To build from source, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## API
 
@@ -93,7 +96,7 @@ Parse a saved response without making a network request:
 
 ```js
 import { readFile } from 'node:fs/promises';
-import { parseTracking } from './dist/index.js';
+import { parseTracking } from '@esyeol/waybillkit';
 
 const payload = await readFile('response.html', 'utf8');
 const result = parseTracking({ carrier: 'kr.daesin', payload });

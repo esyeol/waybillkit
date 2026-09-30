@@ -1,10 +1,25 @@
 {
   "name": "@esyeol/waybillkit",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0-alpha.1",
+  "private": false,
   "description": "A TypeScript SDK for unified tracking across Korean parcel and freight carriers.",
   "type": "module",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esyeol/waybillkit.git"
+  },
+  "homepage": "https://esyeol.github.io/waybillkit/",
+  "bugs": {
+    "url": "https://github.com/esyeol/waybillkit/issues"
+  },
+  "keywords": [
+    "tracking",
+    "parcel",
+    "shipping",
+    "korea",
+    "typescript"
+  ],
   "author": {
     "name": "esyeol",
     "url": "https://github.com/esyeol"
@@ -30,6 +45,7 @@
   ],
   "publishConfig": {
     "access": "public",
+    "tag": "next",
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
@@ -38,7 +54,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "build": "tsc -p tsconfig.build.json",
-    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm build:site && pnpm check:workflows && pnpm check:package",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm build:site && pnpm check:workflows && pnpm check:release && pnpm check:package",
+    "check:release": "node scripts/assert-publishable.mjs",
     "build:site": "node website/build.mjs",
     "check:package": "node scripts/check-package.mjs",
     "check:workflows": "node scripts/check-workflows.mjs",

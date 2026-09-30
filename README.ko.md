@@ -14,7 +14,7 @@
 Node.js 애플리케이션에서 각 운송사의 배송 정보를 직접 조회하고, 일관된 배송 상태와
 이벤트 형식으로 결과를 받을 수 있습니다.
 
-> 실험 단계이며 아직 npm에 배포되지 않았습니다. 지원 운송사와 API는 변경될 수 있습니다.
+> 실험적인 알파 버전입니다. 지원 운송사와 API는 변경될 수 있으며, 운영 적용 전에 검증 범위를 확인하세요.
 
 ## 주요 기능
 
@@ -49,28 +49,31 @@ Node.js 애플리케이션에서 각 운송사의 배송 정보를 직접 조회
 **Node.js 22.13 이상**이 필요합니다. WaybillKit은 ESM 패키지이며 브라우저 런타임은
 지원하지 않습니다.
 
-첫 npm 배포 전에는 Node.js 24와 `package.json`에 지정된 pnpm 버전을 사용하여 로컬
-체크아웃에서 빌드합니다.
+실험 버전 채널을 명시하여 설치합니다.
 
 ```sh
-pnpm install --frozen-lockfile
-pnpm build
+npm install @esyeol/waybillkit@next
 ```
 
-프로젝트 루트의 JavaScript 모듈에서 다음과 같이 실행합니다.
+동일한 버전으로 평가하려면 `@esyeol/waybillkit@0.1.0-alpha.1`을 `--save-exact`로
+고정하세요. 애플리케이션의 `.mjs` 파일에서 다음과 같이 실행합니다.
 
 ```js
-import { track } from './dist/index.js';
+import { track } from '@esyeol/waybillkit';
+
+const trackingNumber = process.env.WAYBILLKIT_DAESIN_NUMBER;
+if (!trackingNumber) throw new Error('Set an authorized waybill number');
 
 const result = await track({
   carrier: 'kr.daesin',
-  trackingNumber: process.env.WAYBILLKIT_DAESIN_NUMBER,
+  trackingNumber,
   timeoutMs: 10_000,
 });
 ```
 
 `WAYBILLKIT_DAESIN_NUMBER`에는 조회 권한이 있는 대신택배 12자리 또는 13자리 운송장
-번호를 설정합니다. 예정된 npm 패키지명은 `@esyeol/waybillkit`입니다.
+번호를 설정합니다. 실제 배포 환경에서 연결을 확인하세요. 대신은 GitHub 실행 환경에서
+연결 실패가 관찰되었습니다. 소스 빌드 방법은 [CONTRIBUTING.md](CONTRIBUTING.md)를 참고하세요.
 
 ## API
 
@@ -94,7 +97,7 @@ const result = await track({
 
 ```js
 import { readFile } from 'node:fs/promises';
-import { parseTracking } from './dist/index.js';
+import { parseTracking } from '@esyeol/waybillkit';
 
 const payload = await readFile('response.html', 'utf8');
 const result = parseTracking({ carrier: 'kr.daesin', payload });

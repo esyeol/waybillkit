@@ -36,7 +36,40 @@ Use the PR title as the squash commit message:
 
 Before 1.0, breaking changes increment the minor version. From 1.0 onward,
 breaking changes increment the major version. Breaking changes always require
-explicit release notes. Release Please owns version and changelog updates.
+explicit release notes. Release Please will own version and changelog updates
+once release automation is enabled. The first alpha is bootstrapped manually.
+
+## Release process
+
+The first release candidate is `0.1.0-alpha.1`, published publicly as
+`@esyeol/waybillkit` with the `next` npm dist-tag. It includes the existing five
+carriers without changing their documented validation limitations.
+
+1. Prepare version, changelog, `.release-please-manifest.json` and bilingual docs
+   in a reviewed PR. Run `pnpm check`, including release metadata and package checks.
+2. After protected-branch CI passes and the PR is merged, use a clean checkout of
+   that exact main commit. Run `pnpm check` and
+   `npm publish --dry-run --access public --tag next`.
+3. A maintainer authenticated as the npm package owner can run
+   `npm publish --access public --tag next`. Complete any npm browser/2FA approval
+   personally. Never share tokens or OTPs in issues, chats or repository files.
+4. Verify the registry version and dist-tags, then install the exact version in
+   a fresh consumer and check exports and declarations without querying carriers.
+   If publication has an ambiguous result, inspect the registry before retrying;
+   a published name/version cannot be overwritten.
+5. Create a matching `v0.1.0-alpha.1` GitHub prerelease at the reviewed commit.
+   This bootstrap release is not a `latest` release and makes no provenance claim.
+
+`publishConfig.tag` and the release metadata guard keep prereleases on `next`.
+A stable release requires explicitly changing the version and tag to `latest`.
+Do not bypass the guard with `--ignore-scripts` when publishing from the checkout.
+
+`RELEASE_ENABLED` and `NPM_PUBLISH_ENABLED` remain disabled for the bootstrap.
+The existing Release workflow accepts stable tags only; it is not the alpha
+publishing path. Before enabling future automation, configure npm trusted
+publishing for this repository and `release.yml`, review the release token setup,
+and test the desired release channel. No npm credential is committed or added to
+GitHub for this manual first release.
 
 ## Carrier contributions
 
