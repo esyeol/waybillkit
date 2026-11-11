@@ -60,6 +60,9 @@ carriers without changing their documented validation limitations.
 5. Create a matching `v0.1.0-alpha.1` GitHub prerelease at the reviewed commit.
    This bootstrap release is not a `latest` release and makes no provenance claim.
 
+Later alphas such as `0.1.0-alpha.2` follow the same manual steps with their own
+version and matching `v` tag.
+
 `publishConfig.tag` and the release metadata guard keep prereleases on `next`.
 A stable release requires explicitly changing the version and tag to `latest`.
 Do not bypass the guard with `--ignore-scripts` when publishing from the checkout.

@@ -61,7 +61,7 @@ Node.js 애플리케이션에서 각 운송사의 배송 정보를 직접 조회
 npm install @esyeol/waybillkit@next
 ```
 
-동일한 버전으로 평가하려면 `@esyeol/waybillkit@0.1.0-alpha.1`을 `--save-exact`로
+동일한 버전으로 평가하려면 `@esyeol/waybillkit@0.1.0-alpha.2`을 `--save-exact`로
 고정하세요. 애플리케이션의 `.mjs` 파일에서 다음과 같이 실행합니다.
 
 ```js

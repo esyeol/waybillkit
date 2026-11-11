@@ -1,6 +1,6 @@
 {
   "name": "@esyeol/waybillkit",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "private": false,
   "description": "A TypeScript SDK for unified tracking across Korean parcel and freight carriers.",
   "type": "module",
