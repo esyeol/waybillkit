@@ -22,6 +22,32 @@ describe("cross-validation regressions", () => {
       ).toThrow(ParseError);
     },
   );
+  it.each(["error", "maintenance", ""])(
+    "does not turn Hapdong result %s into not-found",
+    (result) => {
+      expect(() =>
+        parseTracking({
+          carrier: "kr.hdexp",
+          payload: JSON.stringify({ result }),
+        }),
+      ).toThrow(ParseError);
+    },
+  );
+  it("keeps unrecognized Hapdong scan labels as UNKNOWN", () => {
+    const result = parseTracking({
+      carrier: "kr.hdexp",
+      payload: JSON.stringify({
+        result: "suc",
+        data: {
+          scanList: [
+            { scanDt: "2026-01-02 00:00:00", scanTypeNm: "SYNTHETIC_LABEL" },
+          ],
+        },
+      }),
+    });
+    expect(result.status).toBe("UNKNOWN");
+    expect(result.events[0]?.description).toBe("배송 상태 확인");
+  });
   it("distinguishes a missing Kunyoung waybill cell from an empty one", () => {
     const html = readFileSync(
       new URL("./fixtures/kr-kunyoung/not-found.html", import.meta.url),
@@ -55,6 +81,7 @@ describe("cross-validation regressions", () => {
   it.each([
     "kr.daesin",
     "kr.kdexp",
+    "kr.hdexp",
     "kr.chunilps",
     "kr.kunyoung",
     "kr.ilyanglogis",

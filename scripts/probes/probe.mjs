@@ -2,6 +2,7 @@
 export const targets = Object.freeze({
   "kr.daesin": "0000000000000",
   "kr.kdexp": "00000000",
+  "kr.hdexp": "0000000000",
   "kr.chunilps": "0000000000000000",
   "kr.kunyoung": "0000000000",
   "kr.ilyanglogis": "0000000000",

@@ -15,6 +15,7 @@ export type TrackingStatus =
 export type CarrierId =
   | "kr.daesin"
   | "kr.kdexp"
+  | "kr.hdexp"
   | "kr.chunilps"
   | "kr.kunyoung"
   | "kr.ilyanglogis";
