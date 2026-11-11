@@ -142,7 +142,7 @@ Suggestions and contributions are welcome through issues and pull requests.
 GitHub Actions checks code quality, types, offline tests, public documentation and
 package installation on Node.js 22 and 24 for pushes and pull requests.
 
-As of **2026-09-20**, fixed-dummy checks for the first five carriers are scheduled twice
+As of **2026-11-11**, fixed-dummy checks for all eight carriers are scheduled twice
 daily and issue automation is enabled. Scheduled runs may be delayed. A green
 workflow means report generation succeeded, not that every carrier is healthy.
 Dummy checks do not validate successful shipment tracking.
