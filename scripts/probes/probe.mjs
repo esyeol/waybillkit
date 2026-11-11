@@ -7,6 +7,7 @@ export const targets = Object.freeze({
   "kr.kunyoung": "0000000000",
   "kr.ilyanglogis": "0000000000",
   "kr.honamlogis": "0000000000",
+  "kr.cvsnet": "0000000000",
 });
 
 export function selectCarriers(value = "") {

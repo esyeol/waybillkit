@@ -3,6 +3,7 @@
 
 import iconv from "iconv-lite";
 import { parseChunilps } from "../carriers/kr-chunilps/parse.js";
+import { parseCvsnet } from "../carriers/kr-cvsnet/parse.js";
 import { parseDaesin } from "../carriers/kr-daesin/parse.js";
 import { parseHdexp } from "../carriers/kr-hdexp/parse.js";
 import { parseHonamlogis } from "../carriers/kr-honamlogis/parse.js";
@@ -68,6 +69,12 @@ const settings: Record<
     encoding: "utf-8",
     source: "JSON",
     parse: parseHonamlogis,
+  },
+  "kr.cvsnet": {
+    name: "GS편의점택배",
+    encoding: "utf-8",
+    source: "HTML",
+    parse: parseCvsnet,
   },
 };
 

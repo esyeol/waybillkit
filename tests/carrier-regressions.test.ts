@@ -60,6 +60,22 @@ describe("cross-validation regressions", () => {
       }),
     ).toThrow(ParseError);
   });
+  it("does not turn a GS Postbox upstream failure into not-found", () => {
+    expect(() =>
+      parseTracking({
+        carrier: "kr.cvsnet",
+        payload: 'var trackingInfo = {"code":500,"msg":"SYNTHETIC"};',
+      }),
+    ).toThrow(ParseError);
+  });
+  it("reports GS Postbox events without a known code as UNKNOWN", () => {
+    const result = parseTracking({
+      carrier: "kr.cvsnet",
+      payload:
+        'var trackingInfo = {"code":200,"trackingDetails":[{"transTime":"2026-01-02T00:00:00","transCode":"SYNTHETIC_CODE"}]};',
+    });
+    expect(result.status).toBe("UNKNOWN");
+  });
   it("distinguishes a missing Kunyoung waybill cell from an empty one", () => {
     const html = readFileSync(
       new URL("./fixtures/kr-kunyoung/not-found.html", import.meta.url),
@@ -98,6 +114,7 @@ describe("cross-validation regressions", () => {
     "kr.kunyoung",
     "kr.ilyanglogis",
     "kr.honamlogis",
+    "kr.cvsnet",
   ] as CarrierId[])(
     "rejects JavaScript numeric input before %s network access",
     async (carrier) => {

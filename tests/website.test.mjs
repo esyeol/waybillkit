@@ -169,7 +169,7 @@ describe("public documentation", () => {
           expect($("link[rel=canonical]").attr("href")).toBe(
             `https://esyeol.github.io${base}${file.replace(/index\.html$/, "")}`,
           );
-          if (current === "carriers") expect($("tbody tr")).toHaveLength(7);
+          if (current === "carriers") expect($("tbody tr")).toHaveLength(8);
           if (current === "api")
             for (const id of [
               "track",
