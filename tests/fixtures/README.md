@@ -6,6 +6,10 @@ Ilyang fixtures are synthetic contract fixtures created from public page
 structure and request-schema observations on 2026-09-07. They are not evidence
 that a real shipment completed successfully.
 
+Hapdong's fixtures have separate provenance in
+[kr-hdexp/README.md](kr-hdexp/README.md): the not-found response was observed on
+2026-11-11, while the successful response is synthetic.
+
 Kunyoung's current JSON fixtures have separate provenance in
 [kr-kunyoung/README.md](kr-kunyoung/README.md): the empty response was observed on
 2026-09-16, while successful JSON rows remain synthetic.

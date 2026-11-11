@@ -3,6 +3,7 @@
 
 import { trackChunilps } from "./carriers/kr-chunilps/track.js";
 import { trackDaesin } from "./carriers/kr-daesin/track.js";
+import { trackHdexp } from "./carriers/kr-hdexp/track.js";
 import { trackIlyanglogis } from "./carriers/kr-ilyanglogis/track.js";
 import { trackKdexp } from "./carriers/kr-kdexp/track.js";
 import { trackKunyoung } from "./carriers/kr-kunyoung/track.js";
@@ -39,6 +40,8 @@ export async function trackWithRaw(
       return trackDaesin(options);
     case "kr.kdexp":
       return trackKdexp(options);
+    case "kr.hdexp":
+      return trackHdexp(options);
     case "kr.chunilps":
       return trackChunilps(options);
     case "kr.kunyoung":

@@ -22,6 +22,15 @@ const fixtures = {
     trackingNumber: "00000000",
     contentType: "text/json;charset=UTF-8",
   },
+  "kr.hdexp": {
+    directory: "kr-hdexp",
+    delivered: "delivered.json",
+    notFound: "not-found.json",
+    source: "JSON",
+    encoding: "utf-8",
+    trackingNumber: "0000000000",
+    contentType: "application/json;charset=utf-8",
+  },
   "kr.chunilps": {
     directory: "kr-chunilps",
     delivered: "delivered.html",
@@ -165,6 +174,21 @@ describe("additional carrier transport", () => {
     const [url, init] = fetcher.mock.calls[0] ?? [];
     expect(String(url)).toBe(
       "https://kdexp.com/service/delivery/new/ajax_basic.do?barcode=00000000",
+    );
+    expect(init?.method).toBeUndefined();
+    expect(init?.redirect).toBe("error");
+  });
+
+  it("uses the Hapdong JSON endpoint and barcode parameter", async () => {
+    const fetcher = stub(async () => response("kr.hdexp"));
+    await track({
+      carrier: "kr.hdexp",
+      trackingNumber: "0000000000",
+      fetch: fetcher,
+    });
+    const [url, init] = fetcher.mock.calls[0] ?? [];
+    expect(String(url)).toBe(
+      "https://hdexp.co.kr/new/delivery_search_proc.do?barcode=0000000000",
     );
     expect(init?.method).toBeUndefined();
     expect(init?.redirect).toBe("error");
