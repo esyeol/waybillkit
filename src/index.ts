@@ -4,6 +4,7 @@
 import { trackChunilps } from "./carriers/kr-chunilps/track.js";
 import { trackDaesin } from "./carriers/kr-daesin/track.js";
 import { trackHdexp } from "./carriers/kr-hdexp/track.js";
+import { trackHonamlogis } from "./carriers/kr-honamlogis/track.js";
 import { trackIlyanglogis } from "./carriers/kr-ilyanglogis/track.js";
 import { trackKdexp } from "./carriers/kr-kdexp/track.js";
 import { trackKunyoung } from "./carriers/kr-kunyoung/track.js";
@@ -48,6 +49,8 @@ export async function trackWithRaw(
       return trackKunyoung(options);
     case "kr.ilyanglogis":
       return trackIlyanglogis(options);
+    case "kr.honamlogis":
+      return trackHonamlogis(options);
     default:
       throw new RangeError("Unsupported carrier.");
   }

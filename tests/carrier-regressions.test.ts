@@ -48,6 +48,18 @@ describe("cross-validation regressions", () => {
     expect(result.status).toBe("UNKNOWN");
     expect(result.events[0]?.description).toBe("배송 상태 확인");
   });
+  it.each([
+    { MSG_ID: "9999", ODS0_TOTAL: 0, ODS0: [] },
+    { MSG_ID: "0000", ODS0_TOTAL: 1, ODS0: [] },
+    { MSG_ID: "0000", ODS0: [] },
+  ])("does not turn Woori envelope %j into not-found", (envelope) => {
+    expect(() =>
+      parseTracking({
+        carrier: "kr.honamlogis",
+        payload: JSON.stringify(envelope),
+      }),
+    ).toThrow(ParseError);
+  });
   it("distinguishes a missing Kunyoung waybill cell from an empty one", () => {
     const html = readFileSync(
       new URL("./fixtures/kr-kunyoung/not-found.html", import.meta.url),
@@ -85,6 +97,7 @@ describe("cross-validation regressions", () => {
     "kr.chunilps",
     "kr.kunyoung",
     "kr.ilyanglogis",
+    "kr.honamlogis",
   ] as CarrierId[])(
     "rejects JavaScript numeric input before %s network access",
     async (carrier) => {

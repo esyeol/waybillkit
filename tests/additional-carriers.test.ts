@@ -58,6 +58,15 @@ const fixtures = {
     trackingNumber: "0000000000",
     contentType: "Application/json;charset=UTF-8",
   },
+  "kr.honamlogis": {
+    directory: "kr-honamlogis",
+    delivered: "delivered.json",
+    notFound: "not-found.json",
+    source: "JSON",
+    encoding: "utf-8",
+    trackingNumber: "0000000000",
+    contentType: "text/html",
+  },
 } as const;
 
 type AdditionalCarrier = keyof typeof fixtures;
@@ -191,6 +200,20 @@ describe("additional carrier transport", () => {
       "https://hdexp.co.kr/new/delivery_search_proc.do?barcode=0000000000",
     );
     expect(init?.method).toBeUndefined();
+    expect(init?.redirect).toBe("error");
+  });
+
+  it("posts the Woori waybill as a form field over plain HTTP", async () => {
+    const fetcher = stub(async () => response("kr.honamlogis"));
+    await track({
+      carrier: "kr.honamlogis",
+      trackingNumber: "0000000000",
+      fetch: fetcher,
+    });
+    const [url, init] = fetcher.mock.calls[0] ?? [];
+    expect(String(url)).toBe("http://honamlogis.co.kr/tracking_number.php");
+    expect(init?.method).toBe("POST");
+    expect(init?.body).toBe("SLIP_BARCD=0000000000");
     expect(init?.redirect).toBe("error");
   });
 

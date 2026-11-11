@@ -18,7 +18,7 @@ tracking statuses and events.
 
 ## Features
 
-- One API for six Korean carriers.
+- One API for seven Korean carriers.
 - Consistent statuses and chronological events with Korean time offsets.
 - Standalone HTML/JSON parsing without network requests.
 - Request timeouts, cancellation and injectable `fetch`.
@@ -34,6 +34,10 @@ tracking statuses and events.
 | 천일택배 · Chunil | `kr.chunilps` | UTF-8 HTML | Dummy response checked; successful-response fixture is synthetic |
 | 건영택배 · Kunyoung | `kr.kunyoung` | UTF-8 JSON | Current endpoint: dummy no-history response verified; successful shipments remain unverified |
 | 일양로지스 · Ilyang | `kr.ilyanglogis` | UTF-8 JSON | Dummy response checked; successful-response fixture is synthetic |
+| 우리택배(구 호남택배) · Woori (formerly Honam) | `kr.honamlogis` | UTF-8 JSON | Dummy response checked; successful-response fixture is synthetic. Plain HTTP only |
+
+Woori (formerly Honam) is queried over plain HTTP because its HTTPS endpoint
+failed certificate validation; the waybill number is sent unencrypted.
 
 Dummy-response checks do not verify successful shipment tracking. Carrier websites
 may change independently of this package. See the [carrier evidence and limitations](https://esyeol.github.io/waybillkit/carriers/),

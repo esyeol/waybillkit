@@ -1,0 +1,40 @@
+{
+  "MSG_ID": "0000",
+  "ODS0_TOTAL": 1,
+  "ODS0": [
+    {
+      "SLIP_BARCD": "0000000000",
+      "GOODS_NM": "SYNTHETIC_GOODS",
+      "GOODS_CNT": "1",
+      "S_AGY_NM": "SYNTHETIC_ORIGIN",
+      "R_AGY_NM": "SYNTHETIC_DESTINATION",
+      "TRACKING_DTL": [
+        {
+          "SCAN_DM": "202601020000",
+          "SCANGB_NM": "집하입고",
+          "SCAN_USER_NM": "SYNTHETIC_ORIGIN"
+        },
+        {
+          "SCAN_DM": "202601020100",
+          "SCANGB_NM": "노선상차",
+          "SCAN_USER_NM": "SYNTHETIC_ORIGIN"
+        },
+        {
+          "SCAN_DM": "202601020200",
+          "SCANGB_NM": "노선하차",
+          "SCAN_USER_NM": "SYNTHETIC_DESTINATION"
+        },
+        {
+          "SCAN_DM": "202601020300",
+          "SCANGB_NM": "배송출발",
+          "SCAN_USER_NM": "SYNTHETIC_DESTINATION"
+        },
+        {
+          "SCAN_DM": "202601020400",
+          "SCANGB_NM": "배송완료",
+          "SCAN_USER_NM": "SYNTHETIC_DESTINATION"
+        }
+      ]
+    }
+  ]
+}
