@@ -5,6 +5,7 @@ import iconv from "iconv-lite";
 import { parseChunilps } from "../carriers/kr-chunilps/parse.js";
 import { parseDaesin } from "../carriers/kr-daesin/parse.js";
 import { parseHdexp } from "../carriers/kr-hdexp/parse.js";
+import { parseHonamlogis } from "../carriers/kr-honamlogis/parse.js";
 import { parseIlyanglogis } from "../carriers/kr-ilyanglogis/parse.js";
 import { parseKdexp } from "../carriers/kr-kdexp/parse.js";
 import { parseKunyoung } from "../carriers/kr-kunyoung/parse.js";
@@ -61,6 +62,12 @@ const settings: Record<
     encoding: "utf-8",
     source: "JSON",
     parse: parseIlyanglogis,
+  },
+  "kr.honamlogis": {
+    name: "우리택배(구 호남택배)",
+    encoding: "utf-8",
+    source: "JSON",
+    parse: parseHonamlogis,
   },
 };
 

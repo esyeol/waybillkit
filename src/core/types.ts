@@ -18,7 +18,8 @@ export type CarrierId =
   | "kr.hdexp"
   | "kr.chunilps"
   | "kr.kunyoung"
-  | "kr.ilyanglogis";
+  | "kr.ilyanglogis"
+  | "kr.honamlogis";
 export type TrackingSource = "HTML" | "JSON";
 export type PayloadEncoding = "euc-kr" | "utf-8";
 export interface TrackingEvent {

@@ -8,7 +8,8 @@ that a real shipment completed successfully.
 
 Hapdong's fixtures have separate provenance in
 [kr-hdexp/README.md](kr-hdexp/README.md): the not-found response was observed on
-2026-11-11, while the successful response is synthetic.
+2026-11-11, while the successful response is synthetic. Woori (formerly Honam)
+follows the same pattern in [kr-honamlogis/README.md](kr-honamlogis/README.md).
 
 Kunyoung's current JSON fixtures have separate provenance in
 [kr-kunyoung/README.md](kr-kunyoung/README.md): the empty response was observed on
