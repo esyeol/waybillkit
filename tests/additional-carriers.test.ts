@@ -67,6 +67,15 @@ const fixtures = {
     trackingNumber: "0000000000",
     contentType: "text/html",
   },
+  "kr.cvsnet": {
+    directory: "kr-cvsnet",
+    delivered: "delivered.html",
+    notFound: "not-found.html",
+    source: "HTML",
+    encoding: "utf-8",
+    trackingNumber: "0000000000",
+    contentType: "text/html;charset=UTF-8",
+  },
 } as const;
 
 type AdditionalCarrier = keyof typeof fixtures;
@@ -214,6 +223,21 @@ describe("additional carrier transport", () => {
     expect(String(url)).toBe("http://honamlogis.co.kr/tracking_number.php");
     expect(init?.method).toBe("POST");
     expect(init?.body).toBe("SLIP_BARCD=0000000000");
+    expect(init?.redirect).toBe("error");
+  });
+
+  it("uses the GS Postbox HTML endpoint and invoice_no parameter", async () => {
+    const fetcher = stub(async () => response("kr.cvsnet"));
+    await track({
+      carrier: "kr.cvsnet",
+      trackingNumber: "0000000000",
+      fetch: fetcher,
+    });
+    const [url, init] = fetcher.mock.calls[0] ?? [];
+    expect(String(url)).toBe(
+      "https://www.cvsnet.co.kr/invoice/tracking.do?invoice_no=0000000000",
+    );
+    expect(init?.method).toBeUndefined();
     expect(init?.redirect).toBe("error");
   });
 

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { trackChunilps } from "./carriers/kr-chunilps/track.js";
+import { trackCvsnet } from "./carriers/kr-cvsnet/track.js";
 import { trackDaesin } from "./carriers/kr-daesin/track.js";
 import { trackHdexp } from "./carriers/kr-hdexp/track.js";
 import { trackHonamlogis } from "./carriers/kr-honamlogis/track.js";
@@ -51,6 +52,8 @@ export async function trackWithRaw(
       return trackIlyanglogis(options);
     case "kr.honamlogis":
       return trackHonamlogis(options);
+    case "kr.cvsnet":
+      return trackCvsnet(options);
     default:
       throw new RangeError("Unsupported carrier.");
   }
