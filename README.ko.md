@@ -69,7 +69,7 @@ CJ대한통운·로젠택배·우체국택배는 `robots.txt`에서 조회 경�
 npm install @esyeol/waybillkit@next
 ```
 
-동일한 버전으로 평가하려면 `@esyeol/waybillkit@0.1.0-alpha.2`을 `--save-exact`로
+동일한 버전으로 평가하려면 `@esyeol/waybillkit@0.1.0-alpha.3`을 `--save-exact`로
 고정하세요. 애플리케이션의 `.mjs` 파일에서 다음과 같이 실행합니다.
 
 ```js

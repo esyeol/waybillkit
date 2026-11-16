@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.1.0-alpha.3 (2026-11-16)
+
+Third experimental release, distributed with the npm `next` tag.
+
+### Features
+
+- CJ Logistics (`kr.cjlogistics`), Hanjin (`kr.hanjin`), Logen (`kr.logen`), Lotte
+  (`kr.lotte`) and Korea Post (`kr.epost`) adapters, available through `track`,
+  `trackWithRaw` and `parseTracking`. `CarrierId` gains the five new IDs.
+
+### Known limitations
+
+- No real customer shipment has been captured for the five new carriers. Their
+  not-found responses were observed with fixed dummy queries on 2026-11-16. Logen
+  and Lotte were also checked against the carriers' own all-zero test records; the
+  successful-response shape of the others follows a named third-party reference.
+- CJ Logistics: an empty scan list is reported as not found, whether the waybill
+  is unknown or registered without scans.
+- Hanjin: histories with a leg abroad are rejected with `ParseError`.
+- Lotte: scans whose time the tracker hides are reported at 00:00 KST. Waybills
+  failing the tracker's check digit are refused without a request.
+- Korea Post: 13-digit domestic numbers only.
+- CJ Logistics, Logen and Korea Post disallow automated access to their tracking
+  paths in `robots.txt` and are not part of this project's scheduled checks.
+- The limitations listed for earlier alphas still apply.
+
 ## 0.1.0-alpha.2 (2026-11-11)
 
 Second experimental release, distributed with the npm `next` tag.
