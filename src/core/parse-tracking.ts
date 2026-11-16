@@ -12,6 +12,7 @@ import { parseHonamlogis } from "../carriers/kr-honamlogis/parse.js";
 import { parseIlyanglogis } from "../carriers/kr-ilyanglogis/parse.js";
 import { parseKdexp } from "../carriers/kr-kdexp/parse.js";
 import { parseKunyoung } from "../carriers/kr-kunyoung/parse.js";
+import { parseLogen } from "../carriers/kr-logen/parse.js";
 import { ParseError } from "./errors.js";
 import type {
   CarrierId,
@@ -89,6 +90,12 @@ const settings: Record<
     encoding: "utf-8",
     source: "HTML",
     parse: parseHanjin,
+  },
+  "kr.logen": {
+    name: "로젠택배",
+    encoding: "utf-8",
+    source: "HTML",
+    parse: parseLogen,
   },
 };
 
