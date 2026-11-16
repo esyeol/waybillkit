@@ -69,7 +69,7 @@ Install the experimental channel explicitly:
 npm install @esyeol/waybillkit@next
 ```
 
-For reproducible evaluation, pin `@esyeol/waybillkit@0.1.0-alpha.2` with
+For reproducible evaluation, pin `@esyeol/waybillkit@0.1.0-alpha.3` with
 `--save-exact`. Run the following from an `.mjs` file in your application:
 
 ```js
