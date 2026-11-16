@@ -18,7 +18,7 @@ tracking statuses and events.
 
 ## Features
 
-- One API for eight Korean carriers.
+- One API for nine Korean carriers.
 - Consistent statuses and chronological events with Korean time offsets.
 - Standalone HTML/JSON parsing without network requests.
 - Request timeouts, cancellation and injectable `fetch`.
@@ -36,6 +36,7 @@ tracking statuses and events.
 | 일양로지스 · Ilyang | `kr.ilyanglogis` | UTF-8 JSON | Dummy response checked; successful-response fixture is synthetic |
 | 우리택배(구 호남택배) · Woori (formerly Honam) | `kr.honamlogis` | UTF-8 JSON | Dummy response checked; successful-response fixture is synthetic. Plain HTTP only |
 | GS편의점택배 · GS Postbox | `kr.cvsnet` | UTF-8 HTML | Dummy response checked; successful-response fixture is synthetic. In-transit states are `UNKNOWN` |
+| CJ대한통운 · CJ Logistics | `kr.cjlogistics` | UTF-8 JSON | Dummy response checked; successful-response fixture is synthetic |
 
 Woori (formerly Honam) is queried over plain HTTP because its HTTPS endpoint
 failed certificate validation; the waybill number is sent unencrypted.
@@ -142,8 +143,9 @@ Suggestions and contributions are welcome through issues and pull requests.
 GitHub Actions checks code quality, types, offline tests, public documentation and
 package installation on Node.js 22 and 24 for pushes and pull requests.
 
-As of **2026-11-11**, fixed-dummy checks for all eight carriers are scheduled twice
-daily and issue automation is enabled. Scheduled runs may be delayed. A green
+As of **2026-11-11**, fixed-dummy checks for the first eight carriers are scheduled
+twice daily and issue automation is enabled. Carriers added later are not yet in
+the scheduled set. Scheduled runs may be delayed. A green
 workflow means report generation succeeded, not that every carrier is healthy.
 Dummy checks do not validate successful shipment tracking.
 

@@ -76,6 +76,15 @@ const fixtures = {
     trackingNumber: "0000000000",
     contentType: "text/html;charset=UTF-8",
   },
+  "kr.cjlogistics": {
+    directory: "kr-cjlogistics",
+    delivered: "delivered.json",
+    notFound: "not-found.json",
+    source: "JSON",
+    encoding: "utf-8",
+    trackingNumber: "000000000000",
+    contentType: "application/json;charset=UTF-8",
+  },
 } as const;
 
 type AdditionalCarrier = keyof typeof fixtures;
@@ -238,6 +247,22 @@ describe("additional carrier transport", () => {
       "https://www.cvsnet.co.kr/invoice/tracking.do?invoice_no=0000000000",
     );
     expect(init?.method).toBeUndefined();
+    expect(init?.redirect).toBe("error");
+  });
+
+  it("posts the CJ Logistics waybill to the trace service", async () => {
+    const fetcher = stub(async () => response("kr.cjlogistics"));
+    await track({
+      carrier: "kr.cjlogistics",
+      trackingNumber: "000000000000",
+      fetch: fetcher,
+    });
+    const [url, init] = fetcher.mock.calls[0] ?? [];
+    expect(String(url)).toBe(
+      "https://trace.cjlogistics.com/next/rest/selectTrackingDetailList.do",
+    );
+    expect(init?.method).toBe("POST");
+    expect(init?.body).toBe("wblNo=000000000000");
     expect(init?.redirect).toBe("error");
   });
 
