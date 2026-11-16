@@ -110,6 +110,40 @@ describe("cross-validation regressions", () => {
     expect(parse(["11", "91", "84"])).toBe("EXCEPTION");
     expect(parse(["11", "SYNTHETIC"])).toBe("UNKNOWN");
   });
+  describe("Hanjin page variants", () => {
+    const page = (rows: string) =>
+      `<div class="songjang-num"><span class="num">000000000000</span></div><div class="waybill-tbl"><table><tbody>${rows}</tbody></table></div>`;
+    const row = (date: string, clock: string, wording: string) =>
+      `<tr><td>${date}</td><td>${clock}</td><td>SYNTHETIC</td><td><span class="stateDesc">${wording}</span></td></tr>`;
+    const parse = (payload: string) =>
+      parseTracking({ carrier: "kr.hanjin", payload });
+    it("does not turn another notice into not-found", () => {
+      expect(() =>
+        parse('<script>function submitEvent(){ alert("SYNTHETIC"); }</script>'),
+      ).toThrow(ParseError);
+    });
+    it("keeps unrecognized wording as UNKNOWN", () => {
+      const result = parse(
+        page(row("2026-01-02", "00:00", "SYNTHETIC 문구입니다.")),
+      );
+      expect(result.status).toBe("UNKNOWN");
+    });
+    it("matches wording regardless of spacing", () => {
+      const result = parse(
+        page(
+          row("2026-01-02", "00:00", "<strong>배송출발</strong> 하였습니다."),
+        ),
+      );
+      expect(result.status).toBe("OUT_FOR_DELIVERY");
+    });
+    it.each([
+      row("2026-01-02*", "00:00*", "배송출발하였습니다."),
+      row("2026-01-02", "00:00", "항공편으로 출발 대기중입니다."),
+      row("2026-01-02", "00:00", "수입통관장에 반입되었습니다."),
+    ])("rejects foreign-clock history %#", (rows) => {
+      expect(() => parse(page(rows))).toThrow(ParseError);
+    });
+  });
   it("distinguishes a missing Kunyoung waybill cell from an empty one", () => {
     const html = readFileSync(
       new URL("./fixtures/kr-kunyoung/not-found.html", import.meta.url),
@@ -150,6 +184,7 @@ describe("cross-validation regressions", () => {
     "kr.honamlogis",
     "kr.cvsnet",
     "kr.cjlogistics",
+    "kr.hanjin",
   ] as CarrierId[])(
     "rejects JavaScript numeric input before %s network access",
     async (carrier) => {
