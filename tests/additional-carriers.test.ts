@@ -94,6 +94,15 @@ const fixtures = {
     trackingNumber: "000000000000",
     contentType: "text/html;charset=UTF-8",
   },
+  "kr.logen": {
+    directory: "kr-logen",
+    delivered: "delivered.html",
+    notFound: "not-found.html",
+    source: "HTML",
+    encoding: "utf-8",
+    trackingNumber: "00000000001",
+    contentType: "text/html;charset=UTF-8",
+  },
 } as const;
 
 type AdditionalCarrier = keyof typeof fixtures;
@@ -285,6 +294,21 @@ describe("additional carrier transport", () => {
     const [url, init] = fetcher.mock.calls[0] ?? [];
     expect(String(url)).toBe(
       "https://www.hanjin.com/kor/CMS/DeliveryMgr/WaybillResult.do?mCode=MN038&wblnum=000000000000&schLang=KR",
+    );
+    expect(init?.method).toBeUndefined();
+    expect(init?.redirect).toBe("error");
+  });
+
+  it("puts the Logen waybill in the tracking page path", async () => {
+    const fetcher = stub(async () => response("kr.logen"));
+    await track({
+      carrier: "kr.logen",
+      trackingNumber: "00000000001",
+      fetch: fetcher,
+    });
+    const [url, init] = fetcher.mock.calls[0] ?? [];
+    expect(String(url)).toBe(
+      "https://www.ilogen.com/web/personal/trace/00000000001",
     );
     expect(init?.method).toBeUndefined();
     expect(init?.redirect).toBe("error");

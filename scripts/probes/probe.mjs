@@ -10,6 +10,7 @@ export const targets = Object.freeze({
   "kr.cvsnet": "0000000000",
   "kr.cjlogistics": "000000000000",
   "kr.hanjin": "000000000000",
+  "kr.logen": "00000000001",
 });
 
 export function selectCarriers(value = "") {

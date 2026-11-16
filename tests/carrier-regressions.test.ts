@@ -144,6 +144,44 @@ describe("cross-validation regressions", () => {
       expect(() => parse(page(rows))).toThrow(ParseError);
     });
   });
+  describe("Logen page variants", () => {
+    const cells = (clock: string, label: string) =>
+      `<tr><td>${clock}</td><td>SYNTHETIC</td><td>${label}</td><td></td><td></td><td></td><td></td><td></td></tr>`;
+    const page = (rows: string) =>
+      `<table class="pdInfo"><tbody><tr><td class="tit">송장번호</td><td>00000000000</td></tr></tbody></table><table class="tkInfo"><tbody>${rows}</tbody></table>`;
+    const parse = (payload: string) =>
+      parseTracking({ carrier: "kr.logen", payload });
+    it("does not turn another empty answer into not-found", () => {
+      expect(() =>
+        parse(
+          '<table class="pdInfo"><tbody><tr class="empty"><td>SYNTHETIC</td></tr></tbody></table>',
+        ),
+      ).toThrow(ParseError);
+    });
+    it("keeps unrecognized labels as UNKNOWN", () => {
+      expect(parse(page(cells("2026.01.02 00:00", "SYNTHETIC"))).status).toBe(
+        "UNKNOWN",
+      );
+    });
+    it("ignores the photo link inside a delivery label", () => {
+      expect(
+        parse(
+          page(cells("2026.01.02 00:00", '배송완료 <a href="#">사진확인</a>')),
+        ).status,
+      ).toBe("DELIVERED");
+    });
+    it.each(["2026-01-02 00:00", "2026.01.02", ""])(
+      "rejects the clock %j",
+      (clock) => {
+        expect(() => parse(page(cells(clock, "배송완료")))).toThrow(ParseError);
+      },
+    );
+    it("rejects a scan with missing cells", () => {
+      expect(() =>
+        parse(page("<tr><td>2026.01.02 00:00</td><td>배송완료</td></tr>")),
+      ).toThrow(ParseError);
+    });
+  });
   it("distinguishes a missing Kunyoung waybill cell from an empty one", () => {
     const html = readFileSync(
       new URL("./fixtures/kr-kunyoung/not-found.html", import.meta.url),
@@ -185,6 +223,7 @@ describe("cross-validation regressions", () => {
     "kr.cvsnet",
     "kr.cjlogistics",
     "kr.hanjin",
+    "kr.logen",
   ] as CarrierId[])(
     "rejects JavaScript numeric input before %s network access",
     async (carrier) => {
