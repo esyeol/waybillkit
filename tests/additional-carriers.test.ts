@@ -103,6 +103,15 @@ const fixtures = {
     trackingNumber: "00000000001",
     contentType: "text/html;charset=UTF-8",
   },
+  "kr.lotte": {
+    directory: "kr-lotte",
+    delivered: "delivered.html",
+    notFound: "not-found.html",
+    source: "HTML",
+    encoding: "utf-8",
+    trackingNumber: "000000000011",
+    contentType: "text/html; charset=UTF-8",
+  },
 } as const;
 
 type AdditionalCarrier = keyof typeof fixtures;
@@ -312,6 +321,30 @@ describe("additional carrier transport", () => {
     );
     expect(init?.method).toBeUndefined();
     expect(init?.redirect).toBe("error");
+  });
+
+  it("posts the Lotte waybill and refuses a bad check digit", async () => {
+    const fetcher = stub(async () => response("kr.lotte"));
+    await track({
+      carrier: "kr.lotte",
+      trackingNumber: "000000000011",
+      fetch: fetcher,
+    });
+    const [url, init] = fetcher.mock.calls[0] ?? [];
+    expect(String(url)).toBe(
+      "https://www.lotteglogis.com/home/reservation/tracking/linkView",
+    );
+    expect(init?.method).toBe("POST");
+    expect(init?.body).toBe("InvNo=000000000011");
+    expect(init?.redirect).toBe("error");
+    await expect(
+      track({
+        carrier: "kr.lotte",
+        trackingNumber: "000000000012",
+        fetch: fetcher,
+      }),
+    ).rejects.toBeInstanceOf(InvalidTrackingNumberError);
+    expect(fetcher).toHaveBeenCalledTimes(1);
   });
 
   it("uses the Chunil HTML endpoint and transNo parameter", async () => {

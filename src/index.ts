@@ -12,6 +12,7 @@ import { trackIlyanglogis } from "./carriers/kr-ilyanglogis/track.js";
 import { trackKdexp } from "./carriers/kr-kdexp/track.js";
 import { trackKunyoung } from "./carriers/kr-kunyoung/track.js";
 import { trackLogen } from "./carriers/kr-logen/track.js";
+import { trackLotte } from "./carriers/kr-lotte/track.js";
 import type {
   TrackingResult,
   TrackingResultWithRaw,
@@ -63,6 +64,8 @@ export async function trackWithRaw(
       return trackHanjin(options);
     case "kr.logen":
       return trackLogen(options);
+    case "kr.lotte":
+      return trackLotte(options);
     default:
       throw new RangeError("Unsupported carrier.");
   }
