@@ -45,6 +45,9 @@ tracking statuses and events.
 Woori (formerly Honam) is queried over plain HTTP because its HTTPS endpoint
 failed certificate validation; the waybill number is sent unencrypted.
 
+CJ Logistics, Logen and Korea Post disallow automated access to their tracking
+paths in `robots.txt`. Review their terms before any automated or high-volume use.
+
 Dummy-response checks do not verify successful shipment tracking. Carrier websites
 may change independently of this package. See the [carrier evidence and limitations](https://esyeol.github.io/waybillkit/carriers/),
 including Daesin connection failures observed on GitHub runners before TLS/HTTP.
@@ -149,9 +152,10 @@ Suggestions and contributions are welcome through issues and pull requests.
 GitHub Actions checks code quality, types, offline tests, public documentation and
 package installation on Node.js 22 and 24 for pushes and pull requests.
 
-As of **2026-11-11**, fixed-dummy checks for the first eight carriers are scheduled
-twice daily and issue automation is enabled. Carriers added later are not yet in
-the scheduled set. Scheduled runs may be delayed. A green
+As of **2026-11-16**, fixed-dummy checks are scheduled twice daily for ten carriers
+and issue automation is enabled. CJ Logistics, Logen and Korea Post are left out of
+the scheduled set because their `robots.txt` disallows automated access to the
+tracking path. Scheduled runs may be delayed. A green
 workflow means report generation succeeded, not that every carrier is healthy.
 Dummy checks do not validate successful shipment tracking.
 
