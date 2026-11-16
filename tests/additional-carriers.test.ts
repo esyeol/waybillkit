@@ -85,6 +85,15 @@ const fixtures = {
     trackingNumber: "000000000000",
     contentType: "application/json;charset=UTF-8",
   },
+  "kr.hanjin": {
+    directory: "kr-hanjin",
+    delivered: "delivered.html",
+    notFound: "not-found.html",
+    source: "HTML",
+    encoding: "utf-8",
+    trackingNumber: "000000000000",
+    contentType: "text/html;charset=UTF-8",
+  },
 } as const;
 
 type AdditionalCarrier = keyof typeof fixtures;
@@ -263,6 +272,21 @@ describe("additional carrier transport", () => {
     );
     expect(init?.method).toBe("POST");
     expect(init?.body).toBe("wblNo=000000000000");
+    expect(init?.redirect).toBe("error");
+  });
+
+  it("uses the Hanjin Korean result page and wblnum parameter", async () => {
+    const fetcher = stub(async () => response("kr.hanjin"));
+    await track({
+      carrier: "kr.hanjin",
+      trackingNumber: "000000000000",
+      fetch: fetcher,
+    });
+    const [url, init] = fetcher.mock.calls[0] ?? [];
+    expect(String(url)).toBe(
+      "https://www.hanjin.com/kor/CMS/DeliveryMgr/WaybillResult.do?mCode=MN038&wblnum=000000000000&schLang=KR",
+    );
+    expect(init?.method).toBeUndefined();
     expect(init?.redirect).toBe("error");
   });
 
