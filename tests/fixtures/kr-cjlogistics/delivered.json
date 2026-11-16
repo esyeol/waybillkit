@@ -1,0 +1,68 @@
+{
+  "data": {
+    "svcOutList": [
+      {
+        "crgStDcd": "11",
+        "crgStDnm": "집화처리",
+        "crgStDcdVal": "SYNTHETIC_LINE",
+        "wblNo": "000000000000",
+        "workDt": "2026-01-02",
+        "workHms": "00:00:00",
+        "branNm": "SYNTHETIC_ORIGIN",
+        "empynm": "",
+        "procBranTelNo": "",
+        "patnBranNm": ""
+      },
+      {
+        "crgStDcd": "41",
+        "crgStDnm": "간선상차",
+        "crgStDcdVal": "SYNTHETIC_LINE",
+        "wblNo": "000000000000",
+        "workDt": "2026-01-02",
+        "workHms": "01:00:00",
+        "branNm": "SYNTHETIC_TERMINAL",
+        "empynm": "",
+        "procBranTelNo": "",
+        "patnBranNm": ""
+      },
+      {
+        "crgStDcd": "42",
+        "crgStDnm": "간선하차",
+        "crgStDcdVal": "SYNTHETIC_LINE",
+        "wblNo": "000000000000",
+        "workDt": "2026-01-02",
+        "workHms": "02:00:00",
+        "branNm": "SYNTHETIC_TERMINAL",
+        "empynm": "",
+        "procBranTelNo": "",
+        "patnBranNm": ""
+      },
+      {
+        "crgStDcd": "82",
+        "crgStDnm": "배송출발",
+        "crgStDcdVal": "SYNTHETIC_LINE",
+        "wblNo": "000000000000",
+        "workDt": "2026-01-02",
+        "workHms": "03:00:00",
+        "branNm": "SYNTHETIC_DESTINATION",
+        "empynm": "",
+        "procBranTelNo": "",
+        "patnBranNm": ""
+      },
+      {
+        "crgStDcd": "91",
+        "crgStDnm": "배송완료",
+        "crgStDcdVal": "SYNTHETIC_LINE",
+        "wblNo": "000000000000",
+        "workDt": "2026-01-02",
+        "workHms": "04:00:00",
+        "branNm": "SYNTHETIC_DESTINATION",
+        "empynm": "",
+        "procBranTelNo": "",
+        "patnBranNm": ""
+      }
+    ]
+  },
+  "resultCode": 200,
+  "resultMessage": "성공"
+}

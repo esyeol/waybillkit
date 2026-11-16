@@ -12,6 +12,10 @@ Hapdong's fixtures have separate provenance in
 follows the same pattern in [kr-honamlogis/README.md](kr-honamlogis/README.md),
 as does GS Postbox in [kr-cvsnet/README.md](kr-cvsnet/README.md).
 
+Carriers added from 2026-11-16 onwards (starting with CJ Logistics) have synthetic
+successful-response fixtures whose shape follows a named third-party reference;
+each carrier-local README records that source and what this project observed itself.
+
 Kunyoung's current JSON fixtures have separate provenance in
 [kr-kunyoung/README.md](kr-kunyoung/README.md): the empty response was observed on
 2026-09-16, while successful JSON rows remain synthetic.

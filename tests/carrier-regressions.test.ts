@@ -76,6 +76,40 @@ describe("cross-validation regressions", () => {
     });
     expect(result.status).toBe("UNKNOWN");
   });
+  it.each([
+    { data: { svcOutList: [] }, resultCode: 500 },
+    { data: null, resultCode: 200 },
+    { resultCode: 200 },
+  ])("does not turn CJ Logistics envelope %j into not-found", (envelope) => {
+    expect(() =>
+      parseTracking({
+        carrier: "kr.cjlogistics",
+        payload: JSON.stringify(envelope),
+      }),
+    ).toThrow(ParseError);
+  });
+  it("keeps a CJ Logistics delivery when a departure scan follows it", () => {
+    const scan = (workHms: string, crgStDcd: string) => ({
+      workDt: "2026-01-02",
+      workHms,
+      crgStDcd,
+    });
+    const parse = (codes: string[]) =>
+      parseTracking({
+        carrier: "kr.cjlogistics",
+        payload: JSON.stringify({
+          data: {
+            svcOutList: codes.map((code, index) =>
+              scan(`0${index}:00:00`, code),
+            ),
+          },
+          resultCode: 200,
+        }),
+      }).status;
+    expect(parse(["11", "91", "82"])).toBe("DELIVERED");
+    expect(parse(["11", "91", "84"])).toBe("EXCEPTION");
+    expect(parse(["11", "SYNTHETIC"])).toBe("UNKNOWN");
+  });
   it("distinguishes a missing Kunyoung waybill cell from an empty one", () => {
     const html = readFileSync(
       new URL("./fixtures/kr-kunyoung/not-found.html", import.meta.url),
@@ -115,6 +149,7 @@ describe("cross-validation regressions", () => {
     "kr.ilyanglogis",
     "kr.honamlogis",
     "kr.cvsnet",
+    "kr.cjlogistics",
   ] as CarrierId[])(
     "rejects JavaScript numeric input before %s network access",
     async (carrier) => {

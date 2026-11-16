@@ -3,6 +3,7 @@
 
 import iconv from "iconv-lite";
 import { parseChunilps } from "../carriers/kr-chunilps/parse.js";
+import { parseCjlogistics } from "../carriers/kr-cjlogistics/parse.js";
 import { parseCvsnet } from "../carriers/kr-cvsnet/parse.js";
 import { parseDaesin } from "../carriers/kr-daesin/parse.js";
 import { parseHdexp } from "../carriers/kr-hdexp/parse.js";
@@ -75,6 +76,12 @@ const settings: Record<
     encoding: "utf-8",
     source: "HTML",
     parse: parseCvsnet,
+  },
+  "kr.cjlogistics": {
+    name: "CJ대한통운",
+    encoding: "utf-8",
+    source: "JSON",
+    parse: parseCjlogistics,
   },
 };
 
