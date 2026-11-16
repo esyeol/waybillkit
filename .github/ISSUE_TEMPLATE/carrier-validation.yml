@@ -8,7 +8,7 @@ body:
     id: carrier
     attributes:
       label: Carrier
-      options: [kr.daesin, kr.kdexp, kr.hdexp, kr.chunilps, kr.kunyoung, kr.ilyanglogis, kr.honamlogis, kr.cvsnet, kr.cjlogistics, kr.hanjin, kr.logen, kr.lotte]
+      options: [kr.daesin, kr.kdexp, kr.hdexp, kr.chunilps, kr.kunyoung, kr.ilyanglogis, kr.honamlogis, kr.cvsnet, kr.cjlogistics, kr.hanjin, kr.logen, kr.lotte, kr.epost]
     validations:
       required: true
   - type: dropdown

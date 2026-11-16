@@ -5,6 +5,7 @@ import { trackChunilps } from "./carriers/kr-chunilps/track.js";
 import { trackCjlogistics } from "./carriers/kr-cjlogistics/track.js";
 import { trackCvsnet } from "./carriers/kr-cvsnet/track.js";
 import { trackDaesin } from "./carriers/kr-daesin/track.js";
+import { trackEpost } from "./carriers/kr-epost/track.js";
 import { trackHanjin } from "./carriers/kr-hanjin/track.js";
 import { trackHdexp } from "./carriers/kr-hdexp/track.js";
 import { trackHonamlogis } from "./carriers/kr-honamlogis/track.js";
@@ -66,6 +67,8 @@ export async function trackWithRaw(
       return trackLogen(options);
     case "kr.lotte":
       return trackLotte(options);
+    case "kr.epost":
+      return trackEpost(options);
     default:
       throw new RangeError("Unsupported carrier.");
   }
