@@ -182,6 +182,57 @@ describe("cross-validation regressions", () => {
       ).toThrow(ParseError);
     });
   });
+  describe("Lotte page variants", () => {
+    const head = (labels: string[]) =>
+      `<thead><tr>${labels.map((label) => `<th>${label}</th>`).join("")}</tr></thead>`;
+    const page = (summary: string, history: string) =>
+      `<table>${head(["운송장 번호", "발송지", "도착지", "배달결과"])}<tbody><tr>${summary}</tr></tbody></table><table>${head(["단계", "시간", "현재위치", "처리현황"])}<tbody>${history}</tbody></table>`;
+    const known =
+      "<td>000000000000</td><td>SYNTHETIC</td><td>SYNTHETIC</td><td></td>";
+    const row = (step: string, clock: string) =>
+      `<tr><td>${step}</td><td>${clock}</td><td>SYNTHETIC</td><td>SYNTHETIC</td></tr>`;
+    const parse = (payload: string) =>
+      parseTracking({ carrier: "kr.lotte", payload });
+    it("does not turn a refused number into not-found", () => {
+      const line =
+        '<td colspan="4">보내시는 고객님께서 상품 발송 준비중입니다.</td>';
+      expect(() => parse(page(line, `<tr>${line}</tr>`))).toThrow(ParseError);
+    });
+    it("does not turn a maintenance page into not-found", () => {
+      expect(() => parse("<title>점검 중</title>")).toThrow(ParseError);
+    });
+    it("reports a hidden time at midnight and keeps the newest step", () => {
+      // Newest first: the delivery row has no time, the departure does.
+      const result = parse(
+        page(
+          known,
+          row("배달 완료", "2026-01-02&nbsp;--:--") +
+            row("배송 출발", "2026-01-02&nbsp;03:00"),
+        ),
+      );
+      expect(result.status).toBe("DELIVERED");
+      expect(result.events.map((event) => event.time)).toEqual([
+        "2026-01-02T00:00:00+09:00",
+        "2026-01-02T03:00:00+09:00",
+      ]);
+    });
+    it("drops an untimed repeat of a timed scan", () => {
+      const result = parse(
+        page(
+          known,
+          row("인수/상품접수", "2026-01-02&nbsp;--:--") +
+            row("인수/상품접수", "2026-01-02&nbsp;01:00"),
+        ),
+      );
+      expect(result.events).toHaveLength(1);
+      expect(result.events[0]?.time).toBe("2026-01-02T01:00:00+09:00");
+    });
+    it("keeps unrecognized steps as UNKNOWN", () => {
+      expect(
+        parse(page(known, row("SYNTHETIC", "2026-01-02&nbsp;01:00"))).status,
+      ).toBe("UNKNOWN");
+    });
+  });
   it("distinguishes a missing Kunyoung waybill cell from an empty one", () => {
     const html = readFileSync(
       new URL("./fixtures/kr-kunyoung/not-found.html", import.meta.url),
@@ -224,6 +275,7 @@ describe("cross-validation regressions", () => {
     "kr.cjlogistics",
     "kr.hanjin",
     "kr.logen",
+    "kr.lotte",
   ] as CarrierId[])(
     "rejects JavaScript numeric input before %s network access",
     async (carrier) => {

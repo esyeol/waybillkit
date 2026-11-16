@@ -18,7 +18,7 @@ tracking statuses and events.
 
 ## Features
 
-- One API for eleven Korean carriers.
+- One API for twelve Korean carriers.
 - Consistent statuses and chronological events with Korean time offsets.
 - Standalone HTML/JSON parsing without network requests.
 - Request timeouts, cancellation and injectable `fetch`.
@@ -39,6 +39,7 @@ tracking statuses and events.
 | CJ대한통운 · CJ Logistics | `kr.cjlogistics` | UTF-8 JSON | Dummy response checked; successful-response fixture is synthetic |
 | 한진택배 · Hanjin | `kr.hanjin` | UTF-8 HTML | Dummy response checked; successful-response fixture is synthetic. International histories unsupported |
 | 로젠택배 · Logen | `kr.logen` | UTF-8 HTML | Dummy response and the carrier test record checked; delivered fixture is synthetic |
+| 롯데택배 · Lotte | `kr.lotte` | UTF-8 HTML | Dummy response and the carrier test record checked; delivered fixture is synthetic. Hidden scan times report 00:00 |
 
 Woori (formerly Honam) is queried over plain HTTP because its HTTPS endpoint
 failed certificate validation; the waybill number is sent unencrypted.

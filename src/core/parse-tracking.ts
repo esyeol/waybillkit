@@ -13,6 +13,7 @@ import { parseIlyanglogis } from "../carriers/kr-ilyanglogis/parse.js";
 import { parseKdexp } from "../carriers/kr-kdexp/parse.js";
 import { parseKunyoung } from "../carriers/kr-kunyoung/parse.js";
 import { parseLogen } from "../carriers/kr-logen/parse.js";
+import { parseLotte } from "../carriers/kr-lotte/parse.js";
 import { ParseError } from "./errors.js";
 import type {
   CarrierId,
@@ -96,6 +97,12 @@ const settings: Record<
     encoding: "utf-8",
     source: "HTML",
     parse: parseLogen,
+  },
+  "kr.lotte": {
+    name: "롯데택배",
+    encoding: "utf-8",
+    source: "HTML",
+    parse: parseLotte,
   },
 };
 
