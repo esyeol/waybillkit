@@ -129,9 +129,11 @@ logging complete results.
 
 ## Roadmap
 
-WaybillKit starts with carriers that do not offer a publicly available official
-tracking API for developers. We plan to gradually expand coverage, starting in
-Korea and extending to the United States and Japan as integrations can be validated.
+WaybillKit started with carriers that do not offer a publicly available official
+tracking API for developers, and now also covers the major Korean parcel carriers
+through their public tracking pages. Korea Post additionally offers an official
+open API, which this SDK does not use. We plan to keep expanding coverage in Korea
+and extend to the United States and Japan as integrations can be validated.
 
 - Expand support for additional Korean parcel and freight carriers.
 - Add carriers in the United States and Japan through the same unified API.
