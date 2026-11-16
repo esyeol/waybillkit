@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<title>배송조회</title>
+</head>
+<body>
+<table class="table_col">
+	<caption>배송조회 기본정보 테이블</caption>
+	<thead>
+		<tr>
+			<th scope="col">등기번호</th>
+			<th scope="col">보내는분/발송날짜</th>
+			<th scope="col">받는분/수신날짜</th>
+			<th scope="col">취급구분</th>
+			<th scope="col" class="bg_image_no">배달결과</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">0000000000000</th>
+			<td>SYNTHETIC_SENDER<br />2026.01.02</td>
+			<td>SYNTHETIC_RECIPIENT<br />2026.01.02</td>
+			<td>SYNTHETIC_SERVICE</td>
+			<td>배달완료</td>
+		</tr>
+	</tbody>
+</table>
+<table id="processTable" class="table_col detail_off">
+	<caption>배송진행현황 상세 표</caption>
+	<thead>
+		<tr>
+			<th scope="col">날짜</th>
+			<th scope="col">시간</th>
+			<th scope="col">발생국</th>
+			<th scope="col" class="bg_image_no">처리현황</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>2026.01.01</td>
+			<td>18:00</td>
+			<td>SYNTHETIC_ORIGIN</td>
+			<td>
+				<span class="evtnm">운송장출력</span>
+			</td>
+		</tr>
+		<tr>
+			<td>2026.01.02</td>
+			<td>00:00</td>
+			<td>SYNTHETIC_ORIGIN</td>
+			<td>
+				<span class="evtnm">접수</span>
+			</td>
+		</tr>
+		<tr>
+			<td>2026.01.02</td>
+			<td>01:00</td>
+			<td>SYNTHETIC_ORIGIN</td>
+			<td>
+				<span class="evtnm">발송</span>
+			</td>
+		</tr>
+		<tr>
+			<td>2026.01.02</td>
+			<td>02:00</td>
+			<td>SYNTHETIC_HUB</td>
+			<td>
+				<span class="evtnm">도착</span>
+			</td>
+		</tr>
+		<tr>
+			<td>2026.01.02</td>
+			<td>03:00</td>
+			<td>SYNTHETIC_DESTINATION</td>
+			<td>
+				<span class="evtnm">배달준비</span><span>(집배원 SYNTHETIC_COURIER)</span>
+			</td>
+		</tr>
+		<tr>
+			<td>2026.01.02</td>
+			<td>04:00</td>
+			<td>SYNTHETIC_DESTINATION</td>
+			<td>
+				<span class="evtnm">배달완료</span><br />(수령인:SYNTHETIC_RECEIVER)
+			</td>
+		</tr>
+	</tbody>
+</table>
+</body>
+</html>

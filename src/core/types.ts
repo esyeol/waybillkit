@@ -24,7 +24,8 @@ export type CarrierId =
   | "kr.cjlogistics"
   | "kr.hanjin"
   | "kr.logen"
-  | "kr.lotte";
+  | "kr.lotte"
+  | "kr.epost";
 export type TrackingSource = "HTML" | "JSON";
 export type PayloadEncoding = "euc-kr" | "utf-8";
 export interface TrackingEvent {

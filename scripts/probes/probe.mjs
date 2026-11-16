@@ -12,6 +12,7 @@ export const targets = Object.freeze({
   "kr.hanjin": "000000000000",
   "kr.logen": "00000000001",
   "kr.lotte": "000000000011",
+  "kr.epost": "0000000000000",
 });
 
 export function selectCarriers(value = "") {

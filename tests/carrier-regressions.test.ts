@@ -233,6 +233,65 @@ describe("cross-validation regressions", () => {
       ).toBe("UNKNOWN");
     });
   });
+  describe("Korea Post page variants", () => {
+    const page = (rows: string, extra = "") =>
+      `${extra}<table><thead><tr><th>날짜</th><th>시간</th><th>발생국</th><th>처리현황</th></tr></thead><tbody>${rows}</tbody></table>`;
+    const row = (date: string, clock: string, status: string) =>
+      `<tr><td>${date}</td><td>${clock}</td><td>SYNTHETIC</td><td>${status}</td></tr>`;
+    const parse = (payload: string) =>
+      parseTracking({ carrier: "kr.epost", payload });
+    it("does not turn an empty history without the notice into not-found", () => {
+      expect(() => parse(page(""))).toThrow(ParseError);
+      expect(() =>
+        parse(
+          page("", '<table><tr><td colspan="5">SYNTHETIC</td></tr></table>'),
+        ),
+      ).toThrow(ParseError);
+    });
+    it("ignores table markup that only appears inside scripts", () => {
+      const script =
+        "<script>var html = '<table><thead><tr><th>날짜</th><th>시간</th><th>발생국</th><th>처리현황</th></tr></thead></table>';</script>";
+      const result = parse(
+        page(
+          row("2026.01.02", "00:00", '<span class="evtnm">접수</span>'),
+          script,
+        ),
+      );
+      expect(result.status).toBe("PICKED_UP");
+    });
+    it("reads only the label, not the courier or receiver text", () => {
+      const result = parse(
+        page(
+          row(
+            "2026.01.02",
+            "04:00",
+            '<span class="evtnm">배달완료</span><br>(수령인:SYNTHETIC)',
+          ),
+        ),
+      );
+      expect(result.status).toBe("DELIVERED");
+      expect(JSON.stringify(result)).not.toContain("SYNTHETIC");
+    });
+    it("keeps unrecognized labels as UNKNOWN", () => {
+      expect(
+        parse(
+          page(
+            row("2026.01.02", "00:00", '<span class="evtnm">SYNTHETIC</span>'),
+          ),
+        ).status,
+      ).toBe("UNKNOWN");
+    });
+    it("rejects a scan without a label or with a malformed date", () => {
+      expect(() => parse(page(row("2026.01.02", "00:00", "배달완료")))).toThrow(
+        ParseError,
+      );
+      expect(() =>
+        parse(
+          page(row("2026-01-02", "00:00", '<span class="evtnm">접수</span>')),
+        ),
+      ).toThrow(ParseError);
+    });
+  });
   it("distinguishes a missing Kunyoung waybill cell from an empty one", () => {
     const html = readFileSync(
       new URL("./fixtures/kr-kunyoung/not-found.html", import.meta.url),
@@ -276,6 +335,7 @@ describe("cross-validation regressions", () => {
     "kr.hanjin",
     "kr.logen",
     "kr.lotte",
+    "kr.epost",
   ] as CarrierId[])(
     "rejects JavaScript numeric input before %s network access",
     async (carrier) => {

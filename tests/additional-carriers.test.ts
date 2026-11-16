@@ -112,6 +112,15 @@ const fixtures = {
     trackingNumber: "000000000011",
     contentType: "text/html; charset=UTF-8",
   },
+  "kr.epost": {
+    directory: "kr-epost",
+    delivered: "delivered.html",
+    notFound: "not-found.html",
+    source: "HTML",
+    encoding: "utf-8",
+    trackingNumber: "0000000000000",
+    contentType: "text/html;charset=utf-8",
+  },
 } as const;
 
 type AdditionalCarrier = keyof typeof fixtures;
@@ -345,6 +354,21 @@ describe("additional carrier transport", () => {
       }),
     ).rejects.toBeInstanceOf(InvalidTrackingNumberError);
     expect(fetcher).toHaveBeenCalledTimes(1);
+  });
+
+  it("uses the Korea Post domestic page and sid1 parameter", async () => {
+    const fetcher = stub(async () => response("kr.epost"));
+    await track({
+      carrier: "kr.epost",
+      trackingNumber: "0000000000000",
+      fetch: fetcher,
+    });
+    const [url, init] = fetcher.mock.calls[0] ?? [];
+    expect(String(url)).toBe(
+      "https://service.epost.go.kr/trace.RetrieveDomRigiTraceList.comm?sid1=0000000000000&displayHeader=N",
+    );
+    expect(init?.method).toBeUndefined();
+    expect(init?.redirect).toBe("error");
   });
 
   it("uses the Chunil HTML endpoint and transNo parameter", async () => {
